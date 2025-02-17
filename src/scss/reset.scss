@@ -1,0 +1,102 @@
+@use "@scss/variables.scss" as *;
+
+* {
+  margin: 0px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  padding: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  box-sizing: border-box;
+}
+
+hr,
+a,
+button,
+div,
+span,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  padding: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root,
+section {
+  height: max-content;
+  width: 100%;
+}
+
+#root {
+  height: 100dvh;
+
+  > * {
+    width: 100%;
+  }
+}
+
+section {
+  position: relative;
+}
+
+hr {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  border: none;
+}
+
+a {
+  color: unset;
+  text-decoration: none;
+  font-weight: $light;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  border: none;
+  outline: none;
+}
+
+input {
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.6px;
+  font-weight: $light;
+  border: none;
+  outline: none;
+}

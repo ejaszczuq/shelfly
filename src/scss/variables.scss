@@ -1,0 +1,43 @@
+// COLORS
+$white-0: #ffffff;
+
+$black-0: #000000;
+
+$success: #22b814;
+$error: #f44336;
+$warning: #ffbb00;
+$info: #18afff;
+
+// GRADIENTS
+$gradient-0: linear-gradient(180deg, #1a181c 0%, #272d2a 100%);
+
+// SHADOWS
+$box-shadow-0: 0px 10px 12px 0px rgba($black-0, 0.3);
+
+// BREAKPOINTS
+$xs: 320px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1440px;
+
+// FONT WEIGHTS
+$thin: 100;
+$extra-light: 200;
+$light: 300;
+$regular: 400;
+$medium: 500;
+$semi-bold: 600;
+$bold: 700;
+$extra-bold: 800;
+$black: 900;
+$extra-black: 950;
+
+// APP SIZES
+$mobile: $md;
+$app-padding-x: 16px;
+$app-container: 1400px + 2 * $app-padding-x;
+
+// Z-INDXES
+$navbar-z-index: 100;

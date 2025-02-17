@@ -1,0 +1,110 @@
+@mixin group {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin stack {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-row($direction) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: $direction;
+}
+
+@mixin flex-column($v-direction, $h-direction: center) {
+  display: flex;
+  flex-direction: column;
+  align-items: $v-direction;
+  justify-content: $h-direction;
+}
+
+@mixin flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+@mixin absolute-center() {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin ellipsis-after-lines($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin text-ellipsis($line-clamp: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $line-clamp;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: normal;
+  word-break: break-all;
+}
+
+@mixin text-scaffold($fs, $fw, $color, $lh, $ls) {
+  font-size: $fs !important;
+  font-weight: $fw !important;
+  color: $color !important;
+  line-height: $lh !important;
+  letter-spacing: $ls !important;
+}
+
+@mixin mq-min($size) {
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin mq-max($size) {
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
+@mixin desktop($display, $size) {
+  display: $display !important;
+
+  @include mq($size) {
+    display: none !important;
+  }
+}
+
+@mixin mobile($display, $size) {
+  display: none !important;
+
+  @include mq($size) {
+    display: $display !important;
+  }
+}
+
+@mixin no-select {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  &:focus {
+    outline: none !important;
+  }
+}
