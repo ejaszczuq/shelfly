@@ -1,6 +1,6 @@
 {
   "name": "shelfly",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "start": "env-cmd --silent -f .env.dev craco start",
