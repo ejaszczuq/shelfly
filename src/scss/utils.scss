@@ -1,0 +1,25 @@
+@use "@scss/variables.scss" as *;
+
+.loading-dots:after {
+  content: "...";
+  position: absolute;
+  margin-left: 2px;
+  animation: loading-dots-anim 1.25s infinite;
+}
+
+@keyframes loading-dots-anim {
+  0%,
+  20% {
+    content: "";
+  }
+  40% {
+    content: ".";
+  }
+  60% {
+    content: "..";
+  }
+  80%,
+  100% {
+    content: "...";
+  }
+}

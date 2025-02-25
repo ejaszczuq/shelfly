@@ -1,6 +1,6 @@
 {
   "name": "shelfly",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "start": "env-cmd --silent -f .env.dev craco start",
@@ -15,6 +15,7 @@
     "classnames": "^2.5.1",
     "env-cmd": "^10.1.0",
     "env-var": "^7.5.0",
+    "firebase": "^11.3.1",
     "i18next": "22.4.14",
     "i18next-browser-languagedetector": "7.0.1",
     "react": "^18.3.0",

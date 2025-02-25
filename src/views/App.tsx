@@ -8,6 +8,7 @@ import "@scss/reset.scss";
 import "@scss/variables.scss";
 import "@scss/typography.scss";
 import "@scss/mixins.scss";
+import "@scss/utils.scss";
 
 const App = () => {
   return <Router />;
