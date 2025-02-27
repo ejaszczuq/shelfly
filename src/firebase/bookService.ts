@@ -1,20 +1,30 @@
-import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, DocumentData } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  DocumentData,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 interface Book {
-  id?: string; //optional
+  id?: string;
   title: string;
   author: string;
   year: number;
   genre: string;
-  userId: string; // ID from Firebase Auth
+  userId: string; 
   description: string;
+  src?: string; 
 }
 
-//Firestore data type
 export type FirestoreBook = Book & DocumentData;
 
-//add new book
+
 export const addBook = async (book: Book): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "books"), book);
@@ -26,8 +36,11 @@ export const addBook = async (book: Book): Promise<string> => {
   }
 };
 
-//update
-export const updateBook = async (bookId: string, updatedBook: Partial<Book>): Promise<void> => {
+
+export const updateBook = async (
+  bookId: string,
+  updatedBook: Partial<Book>
+): Promise<void> => {
   try {
     const bookDocRef = doc(db, "books", bookId);
     await updateDoc(bookDocRef, updatedBook);
@@ -38,7 +51,6 @@ export const updateBook = async (bookId: string, updatedBook: Partial<Book>): Pr
   }
 };
 
-//delete
 export const deleteBook = async (bookId: string): Promise<void> => {
   try {
     const bookDocRef = doc(db, "books", bookId);
@@ -50,14 +62,13 @@ export const deleteBook = async (bookId: string): Promise<void> => {
   }
 };
 
-//get all books
+
 export const getBooks = async (): Promise<FirestoreBook[]> => {
   try {
     const querySnapshot = await getDocs(collection(db, "books"));
-    return querySnapshot.docs.map((doc) => {
-      // Rzutowanie doc.data() na Book
-      const data = doc.data() as Book;
-      return { ...data, id: doc.id } as FirestoreBook;
+    return querySnapshot.docs.map((docSnap) => {
+      const data = docSnap.data() as Book;
+      return { ...data, id: docSnap.id };
     });
   } catch (e) {
     console.error("Error getting books: ", e);
@@ -65,8 +76,9 @@ export const getBooks = async (): Promise<FirestoreBook[]> => {
   }
 };
 
-//get books by title
-export const getBookByTitle = async (title: string): Promise<FirestoreBook | null> => {
+export const getBookByTitle = async (
+  title: string
+): Promise<FirestoreBook | null> => {
   try {
     const q = query(collection(db, "books"), where("title", "==", title));
     const querySnapshot = await getDocs(q);
@@ -75,8 +87,6 @@ export const getBookByTitle = async (title: string): Promise<FirestoreBook | nul
       console.warn(`No book found with title: ${title}`);
       return null;
     }
-
-    // Zakładamy, że tytuł jest unikalny → pobieramy pierwszy wynik
     const bookDoc = querySnapshot.docs[0];
     return { ...bookDoc.data(), id: bookDoc.id } as FirestoreBook;
   } catch (e) {
@@ -85,14 +95,16 @@ export const getBookByTitle = async (title: string): Promise<FirestoreBook | nul
   }
 };
 
-//get books by author
-export const getBooksByAuthor = async (author: string): Promise<FirestoreBook[]> => {
+
+export const getBooksByAuthor = async (
+  author: string
+): Promise<FirestoreBook[]> => {
   try {
     const q = query(collection(db, "books"), where("author", "==", author));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => {
-      const data = doc.data() as Book;
-      return { ...data, id: doc.id };
+    return querySnapshot.docs.map((docSnap) => {
+      const data = docSnap.data() as Book;
+      return { ...data, id: docSnap.id };
     });
   } catch (e) {
     console.error("Error getting books by author: ", e);
@@ -100,14 +112,16 @@ export const getBooksByAuthor = async (author: string): Promise<FirestoreBook[]>
   }
 };
 
-//get books by genre
-export const getBooksByGenre = async (genre: string): Promise<FirestoreBook[]> => {
+
+export const getBooksByGenre = async (
+  genre: string
+): Promise<FirestoreBook[]> => {
   try {
     const q = query(collection(db, "books"), where("genre", "==", genre));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => {
-      const data = doc.data() as Book;
-      return { ...data, id: doc.id };
+    return querySnapshot.docs.map((docSnap) => {
+      const data = docSnap.data() as Book;
+      return { ...data, id: docSnap.id };
     });
   } catch (e) {
     console.error("Error getting books by genre: ", e);

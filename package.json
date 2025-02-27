@@ -1,6 +1,6 @@
 {
   "name": "shelfly",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "start": "env-cmd --silent -f .env.dev craco start",
@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@craco/craco": "7.1.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.5",
     "classnames": "^2.5.1",
     "env-cmd": "^10.1.0",
     "env-var": "^7.5.0",
