@@ -1,12 +1,12 @@
 @use "./variables.scss" as *;
 
-@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 html {
   color: $black-0;
   background: $white-0;
   font-size: 14px;
-  font-family: "Oxanium", sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
