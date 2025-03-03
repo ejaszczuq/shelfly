@@ -1,14 +1,4 @@
-import {
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-  query,
-  where,
-  DocumentData,
-} from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, DocumentData } from "firebase/firestore";
 import { db } from "./firebase";
 
 interface Book {
@@ -17,30 +7,25 @@ interface Book {
   author: string;
   year: number;
   genre: string;
-  userId: string; 
+  userId: string;
   description: string;
-  src?: string; 
+  src?: string;
 }
 
 export type FirestoreBook = Book & DocumentData;
 
-
-export const addBook = async (book: Book): Promise<string> => {
+export const addBook = async (book: Book) => {
   try {
     const docRef = await addDoc(collection(db, "books"), book);
     console.log("Document written with ID: ", docRef.id);
-    return docRef.id;
+    return docRef;
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e;
   }
 };
 
-
-export const updateBook = async (
-  bookId: string,
-  updatedBook: Partial<Book>
-): Promise<void> => {
+export const updateBook = async (bookId: string, updatedBook: Partial<Book>): Promise<void> => {
   try {
     const bookDocRef = doc(db, "books", bookId);
     await updateDoc(bookDocRef, updatedBook);
@@ -62,7 +47,6 @@ export const deleteBook = async (bookId: string): Promise<void> => {
   }
 };
 
-
 export const getBooks = async (): Promise<FirestoreBook[]> => {
   try {
     const querySnapshot = await getDocs(collection(db, "books"));
@@ -76,9 +60,7 @@ export const getBooks = async (): Promise<FirestoreBook[]> => {
   }
 };
 
-export const getBookByTitle = async (
-  title: string
-): Promise<FirestoreBook | null> => {
+export const getBookByTitle = async (title: string): Promise<FirestoreBook | null> => {
   try {
     const q = query(collection(db, "books"), where("title", "==", title));
     const querySnapshot = await getDocs(q);
@@ -95,10 +77,7 @@ export const getBookByTitle = async (
   }
 };
 
-
-export const getBooksByAuthor = async (
-  author: string
-): Promise<FirestoreBook[]> => {
+export const getBooksByAuthor = async (author: string): Promise<FirestoreBook[]> => {
   try {
     const q = query(collection(db, "books"), where("author", "==", author));
     const querySnapshot = await getDocs(q);
@@ -112,10 +91,7 @@ export const getBooksByAuthor = async (
   }
 };
 
-
-export const getBooksByGenre = async (
-  genre: string
-): Promise<FirestoreBook[]> => {
+export const getBooksByGenre = async (genre: string): Promise<FirestoreBook[]> => {
   try {
     const q = query(collection(db, "books"), where("genre", "==", genre));
     const querySnapshot = await getDocs(q);
