@@ -1,106 +1,173 @@
-import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, DocumentData } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc, query, where } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { db } from "./firebase";
 
-interface Book {
+export interface FirestoreBook {
   id?: string;
   title: string;
   author: string;
   year: number;
   genre: string;
-  userId: string;
   description: string;
   src?: string;
+  userId: string;
 }
 
-export type FirestoreBook = Book & DocumentData;
-
-export const addBook = async (book: Book) => {
+// Dodawanie książki do Firestore w subkolekcji użytkownika
+export const addBook = async (book: Omit<FirestoreBook, "userId">) => {
   try {
-    const docRef = await addDoc(collection(db, "books"), book);
-    console.log("Document written with ID: ", docRef.id);
-    return docRef;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
+    const booksRef = collection(db, "books");
+    return await addDoc(booksRef, { ...book, userId: user.uid });
   } catch (e) {
-    console.error("Error adding document: ", e);
+    // console.log(e);
     throw e;
   }
 };
 
-export const updateBook = async (bookId: string, updatedBook: Partial<Book>): Promise<void> => {
+// Pobieranie książek tylko zalogowanego użytkownika
+export const getUserBooks = async () => {
   try {
-    const bookDocRef = doc(db, "books", bookId);
-    await updateDoc(bookDocRef, updatedBook);
-    console.log("Document updated successfully!");
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
+    const booksRef = collection(db, "books");
+    const q = query(booksRef, where("userId", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map((docSnap) => ({
+      ...docSnap.data(),
+      id: docSnap.id
+    })) as FirestoreBook[];
   } catch (e) {
-    console.error("Error updating document: ", e);
     throw e;
   }
 };
 
-export const deleteBook = async (bookId: string): Promise<void> => {
+// Pobranie jednej książki użytkownika do edycji
+export const getUserBookById = async (bookId: string) => {
   try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
     const bookDocRef = doc(db, "books", bookId);
+    const bookDoc = await getDoc(bookDocRef);
+
+    if (!bookDoc.exists()) {
+      console.warn(`Nie znaleziono książki o ID: ${bookId}`);
+      return null;
+    }
+
+    const bookData = bookDoc.data() as FirestoreBook;
+    return bookData.userId === user.uid ? { ...bookData, id: bookDoc.id } : null;
+  } catch (e) {
+    throw e;
+  }
+};
+
+// Edycja książki użytkownika
+export const updateUserBook = async (bookId: string, updatedBook: Partial<FirestoreBook>) => {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
+    const bookDocRef = doc(db, "books", bookId);
+    const bookDoc = await getDoc(bookDocRef);
+
+    if (!bookDoc.exists() || bookDoc.data()?.userId !== user.uid) {
+      throw new Error("Brak dostępu do edycji tej książki.");
+    }
+
+    return await updateDoc(bookDocRef, updatedBook);
+  } catch (e) {
+    throw e;
+  }
+};
+
+// Usuwanie książki użytkownika
+export const deleteUserBook = async (bookId: string): Promise<void> => {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
+    const bookDocRef = doc(db, "books", bookId);
+    const bookDoc = await getDoc(bookDocRef);
+
+    if (!bookDoc.exists() || bookDoc.data()?.userId !== user.uid) {
+      throw new Error("Brak dostępu do usunięcia tej książki.");
+    }
+
     await deleteDoc(bookDocRef);
-    console.log("Document deleted successfully!");
   } catch (e) {
-    console.error("Error deleting document: ", e);
     throw e;
   }
 };
 
-export const getBooks = async (): Promise<FirestoreBook[]> => {
+// Pobieranie książki po tytule tylko dla zalogowanego użytkownika
+export const getUserBookByTitle = async (title: string) => {
   try {
-    const querySnapshot = await getDocs(collection(db, "books"));
-    return querySnapshot.docs.map((docSnap) => {
-      const data = docSnap.data() as Book;
-      return { ...data, id: docSnap.id };
-    });
-  } catch (e) {
-    console.error("Error getting books: ", e);
-    throw e;
-  }
-};
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
 
-export const getBookByTitle = async (title: string): Promise<FirestoreBook | null> => {
-  try {
-    const q = query(collection(db, "books"), where("title", "==", title));
+    const booksRef = collection(db, "books");
+    const q = query(booksRef, where("userId", "==", user.uid), where("title", "==", title));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.warn(`No book found with title: ${title}`);
       return null;
     }
+
     const bookDoc = querySnapshot.docs[0];
     return { ...bookDoc.data(), id: bookDoc.id } as FirestoreBook;
   } catch (e) {
-    console.error("Error getting book by title:", e);
     throw e;
   }
 };
 
-export const getBooksByAuthor = async (author: string): Promise<FirestoreBook[]> => {
+// Pobieranie książek użytkownika po autorze
+export const getUserBooksByAuthor = async (author: string) => {
   try {
-    const q = query(collection(db, "books"), where("author", "==", author));
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
+    const booksRef = collection(db, "books");
+    const q = query(booksRef, where("userId", "==", user.uid), where("author", "==", author));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((docSnap) => {
-      const data = docSnap.data() as Book;
-      return { ...data, id: docSnap.id };
-    });
+
+    return querySnapshot.docs.map((docSnap) => ({
+      ...docSnap.data(),
+      id: docSnap.id
+    })) as FirestoreBook[];
   } catch (e) {
-    console.error("Error getting books by author: ", e);
     throw e;
   }
 };
 
-export const getBooksByGenre = async (genre: string): Promise<FirestoreBook[]> => {
+// Pobieranie książek użytkownika po gatunku
+export const getUserBooksByGenre = async (genre: string): Promise<FirestoreBook[]> => {
   try {
-    const q = query(collection(db, "books"), where("genre", "==", genre));
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+
+    const booksRef = collection(db, "books");
+    const q = query(booksRef, where("userId", "==", user.uid), where("genre", "array-contains", genre));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((docSnap) => {
-      const data = docSnap.data() as Book;
-      return { ...data, id: docSnap.id };
-    });
+
+    return querySnapshot.docs.map((docSnap) => ({
+      ...docSnap.data(),
+      id: docSnap.id
+    })) as FirestoreBook[];
   } catch (e) {
-    console.error("Error getting books by genre: ", e);
     throw e;
   }
 };
