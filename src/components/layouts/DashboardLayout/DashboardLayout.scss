@@ -1,0 +1,13 @@
+@use "@scss/global.scss" as *;
+
+.dashboard-layout {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-top: 70px;
+
+  &__navbar {
+  }
+
+  &__main {
+  }
+}
