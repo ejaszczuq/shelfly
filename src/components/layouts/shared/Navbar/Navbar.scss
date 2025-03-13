@@ -34,40 +34,10 @@
     flex: 1; // let it grow to push left & right apart
     display: flex;
     justify-content: center;
+  }
 
-    .input-section {
-      position: relative;
-      width: 400px; // default width for larger screens
-
-      .input-icon {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-        color: $white-1;
-      }
-
-      input {
-        width: 100%;
-        padding-left: 3rem;
-        height: 2rem;
-        font-size: 1rem;
-        border: 1px solid $grey-2;
-        border-radius: 4px;
-        background-color: $grey-2;
-        color: $white-0;
-        outline: none;
-
-        &::placeholder {
-          color: $white-1;
-        }
-
-        &:focus {
-          border-color: $white-1;
-        }
-      }
-    }
+  .input-section {
+    width: 400px;
   }
 
   // Right side: pinned right

@@ -7,7 +7,7 @@ export const generateAddEditBookSchema = () => {
     year: yup
       .number()
       .required("To pole jest wymagane")
-      .min(1000, "Rok musi być większy niż 1000")
+      // .min(1000, "Rok musi być większy niż 1000")
       .max(new Date().getFullYear(), `Rok nie może być większy niż ${new Date().getFullYear()}`),
     genre: yup
       .mixed()

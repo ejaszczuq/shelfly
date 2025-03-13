@@ -1,1 +1,38 @@
 @use "@scss/global.scss" as *;
+
+.control-panel {
+
+    max-width: 252px;
+    margin-left: 10px;
+    background-color: $grey-1;
+    border: 1px solid $grey-2;
+    padding: 10px 0 10px 10px;
+    border-radius: 0.4rem;
+
+    p {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        border-bottom: 2px solid $blue-0;
+        min-width: min-content;
+        max-width: fit-content;
+    }
+
+    span {
+        font-size: 12px;
+        color: $white-1;
+    }
+
+    input[type="checkbox"]{
+        margin-right: 7px;
+    }
+
+    .input-section {
+        width: 230px;
+        margin-bottom: 10px;
+    }
+    li {
+        list-style-type: none;
+        margin-left: 7px;
+    }
+}
