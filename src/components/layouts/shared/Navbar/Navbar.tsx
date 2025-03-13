@@ -9,6 +9,7 @@ import { scrollToTop } from "@src/utils/scrollToTop";
 import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./Navbar.scss";
+import SearchInput from "@src/components/common/SearchInput/SearchInput";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
@@ -34,15 +35,10 @@ const Navbar: React.FC = () => {
 
       {/* CENTER SECTION: wyszukiwarka */}
       <div className="navbar-center">
-        <div className="input-section">
-          <DynamicIcon iconName="SearchTwoTone" fontSize="medium" color="action" className="input-icon" />
-          <input
-            type="text"
-            placeholder={t("common:searchBooks") ?? "Szukaj książek..."}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+      <SearchInput
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       </div>
 
       {/* RIGHT SECTION: ikony */}

@@ -24,6 +24,11 @@
       width: 375px;
     }
 
+    .dynamic-icon:hover {
+      cursor: pointer;
+      color: $blue-0;
+    }
+
     .book-details {
       padding: 2rem;
       color: $white-0;
