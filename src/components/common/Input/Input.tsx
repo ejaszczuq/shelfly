@@ -43,7 +43,7 @@ const Input: React.FC<InputProps> = ({
       {labelOrError && <label className="input-label">{labelOrError as string}</label>}
 
       <div className="input-wrapper">
-        {prefixIcon && <DynamicIcon iconName={prefixIcon} fontSize="medium" color="action" className="prefix-icon" />}
+        {prefixIcon && <DynamicIcon iconName={prefixIcon} fontSize="medium" className="prefix-icon" />}
 
         {type === "textarea" ? (
           <textarea {...field} className="input-field textarea" placeholder={placeholder} maxLength={maxLength} />

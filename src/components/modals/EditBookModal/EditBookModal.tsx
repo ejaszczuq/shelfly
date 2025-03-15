@@ -78,16 +78,16 @@ const EditBookModal = ({ book, onClose }: ModalProps) => {
                 {error && <p className="error">{error}</p>}
 
                 {/* Tytuł */}
-                <Field name="title" label="Tytuł" component={Input} variant="outlined" />
+                <Field name="title" label="Tytuł" component={Input} variant="outlined" prefixIcon="TextFormatTwoTone"/>
 
                 {/* Autor */}
-                <Field name="author" label="Autor" component={Input} variant="outlined" />
+                <Field name="author" label="Autor" component={Input} variant="outlined" prefixIcon="EmojiPeopleTwoTone"/>
 
                 {/* Rok wydania */}
-                <Field name="year" label="Rok wydania" type="number" component={Input} variant="outlined" />
+                <Field name="year" label="Rok wydania" type="number" component={Input} variant="outlined" prefixIcon="InsertInvitationTwoTone"/>
 
                 {/* Gatunek */}
-                <Field name="genre" label="Gatunek" component={Input} variant="outlined" />
+                <Field name="genre" label="Gatunek" component={Input} variant="outlined" prefixIcon="CategoryTwoTone"/>
 
                 {/* Opis */}
                 <Field

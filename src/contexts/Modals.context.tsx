@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { FirestoreBook } from "@src/firebase/bookService";
 
 interface ContextProps {
@@ -11,6 +10,12 @@ interface ContextValue {
   openAddBookModal: boolean;
   handleOpenAddBookModal: () => void;
   handleCloseAddBookModal: () => void;
+
+  // BookModal
+  openBookModal: boolean;
+  selectedBook: FirestoreBook | null;
+  handleOpenBookModal: (book: FirestoreBook) => void;
+  handleCloseBookModal: () => void;
 
   // EditBookModal
   openEditBookModal: {
@@ -26,7 +31,7 @@ interface ContextValue {
   handleCloseDeleteBookModal: () => void;
 }
 
-const ModalsContext = React.createContext(null as any);
+const ModalsContext = React.createContext<ContextValue>(null as any);
 
 export const ModalsProvider = ({ children }: ContextProps) => {
   // AddBookModal
@@ -34,20 +39,34 @@ export const ModalsProvider = ({ children }: ContextProps) => {
   const handleOpenAddBookModal = () => setOpenAddBookModal(true);
   const handleCloseAddBookModal = () => setOpenAddBookModal(false);
 
+  // BookModal
+  const [openBookModal, setOpenBookModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<FirestoreBook | null>(null);
+
+  const handleOpenBookModal = (book: FirestoreBook) => {
+    setSelectedBook(book);
+    setOpenBookModal(true);
+  };
+
+  const handleCloseBookModal = () => {
+    setSelectedBook(null);
+    setOpenBookModal(false);
+  };
+
   // EditBookModal
   const [openEditBookModal, setOpenEditBookModal] = useState<{ open: boolean; book: FirestoreBook | null }>({
     open: false,
-    book: null
+    book: null,
   });
   const handleOpenEditBookModal = (book: FirestoreBook) =>
     setOpenEditBookModal({
       open: true,
-      book
+      book,
     });
   const handleCloseEditBookModal = () =>
     setOpenEditBookModal({
       open: false,
-      book: null
+      book: null,
     });
 
   // DeleteBookModal
@@ -60,13 +79,18 @@ export const ModalsProvider = ({ children }: ContextProps) => {
     handleOpenAddBookModal,
     handleCloseAddBookModal,
 
+    openBookModal,
+    selectedBook,
+    handleOpenBookModal,
+    handleCloseBookModal,
+
     openEditBookModal,
     handleOpenEditBookModal,
     handleCloseEditBookModal,
 
     openDeleteBookModal,
     handleOpenDeleteBookModal,
-    handleCloseDeleteBookModal
+    handleCloseDeleteBookModal,
   };
 
   return <ModalsContext.Provider value={contextValue}>{children}</ModalsContext.Provider>;
@@ -74,10 +98,10 @@ export const ModalsProvider = ({ children }: ContextProps) => {
 
 export const useModals = (): ContextValue => {
   const context = React.useContext(ModalsContext);
-
   if (context === undefined) {
     throw new Error("useModals must be used within an ModalsProvider");
   }
-
   return context;
 };
+
+export default ModalsContext;
