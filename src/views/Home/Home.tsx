@@ -8,10 +8,17 @@ import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./Home.scss";
 import ControlPanel from "@src/components/common/ControlPanel/ControlPanel";
+import BookModal from "@src/components/modals/bookModal/bookModal";
 
 const Home = () => {
-  const { books, filteredBooks, loading, error } = useBooks();
-  const { handleOpenEditBookModal } = useModals();
+  const { filteredBooks, loading } = useBooks();
+  const {
+    handleOpenEditBookModal,
+    handleOpenBookModal,
+    openBookModal,
+    selectedBook,
+    handleCloseBookModal,
+  } = useModals();
 
   const handleDeleteBook = async (bookId: string) => {
     try {
@@ -34,13 +41,19 @@ const Home = () => {
                 <h4>{title}</h4>
                 <DynamicIcon
                   className="dynamic-icon"
-                  iconName="EditNote"
+                  iconName="ContactSupportTwoTone"
+                  color="grey"
+                  onClick={() => handleOpenBookModal(book)}
+                />
+                <DynamicIcon
+                  className="dynamic-icon"
+                  iconName="EditNoteTwoTone"
                   onClick={() => handleOpenEditBookModal(book)}
                   color="grey"
                 />
                 <DynamicIcon
                   className="dynamic-icon"
-                  iconName="Delete"
+                  iconName="DeleteTwoTone"
                   onClick={() => handleDeleteBook(id!)}
                   color="grey"
                 />
@@ -52,6 +65,9 @@ const Home = () => {
       <div className="control-panel-wrapper">
         <ControlPanel labelName="Filter by genres" />
       </div>
+      {openBookModal && selectedBook && (
+        <BookModal book={selectedBook} onClose={handleCloseBookModal} />
+      )}
     </div>
   );
 };

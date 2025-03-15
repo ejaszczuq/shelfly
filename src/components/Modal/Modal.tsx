@@ -33,7 +33,7 @@ const Modal = ({ children, onClose }: ModalProps) => {
       <div className="modal-content">{children}</div>
 
       {onClose && (
-        <DynamicIcon iconName="DisabledByDefaultTwoTone" color="action" onClick={onClose} className="modal-close-btn" />
+        <DynamicIcon iconName="DisabledByDefaultTwoTone" onClick={onClose} className="modal-close-btn" />
       )}
     </div>
   );

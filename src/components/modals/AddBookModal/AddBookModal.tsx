@@ -121,6 +121,7 @@ const AddBookModal = ({ onClose }: ModalProps) => {
                   component={Input}
                   maxLength={500}
                   variant="outlined"
+                  prefixIcon=""
                 />
 
                 {loading && <p className="loading-dots">Wysyłanie...</p>}

@@ -81,7 +81,7 @@
       font-size: 1rem;
       box-sizing: border-box;
       padding: 0.5rem;
-      padding-left: 2.5rem;
+      padding-left: 3rem;
       color: $white-1;
 
       &:focus {
@@ -107,6 +107,11 @@
       & ~ .clear-icon {
         top: 0.7rem;
         transform: none;
+        cursor: pointer;
+        color: $white-0;
+        background-color: $white-1;
+        border-radius: 1rem;
+        padding: 3px;
       }
     }
 
@@ -115,7 +120,10 @@
       bottom: 0.25rem;
       right: 0.75rem;
       font-size: 0.75rem;
-      color: $white-1;
+      color: $white-0;
+      background-color: $white-1;
+      border-radius: 1rem;
+      padding: 2px;
     }
   }
 }
