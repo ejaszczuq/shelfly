@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { useFormik, Field, FormikProvider } from "formik";
 
 import { PATHS } from "@src/router/paths";
 import { useAuth } from "@src/contexts/Auth.context";
-
 import { registerAccountSchema } from "./registerAccount.schema";
+
+// Własny komponent Input (taki sam używany w AuthLogin)
+import Input from "@src/components/common/Input/Input";
+
 import "./AuthRegister.scss";
 
 interface RegisterAccountForm {
@@ -25,7 +28,6 @@ const AuthRegister = () => {
   const handleRegisterWithEmail = async ({ email, password }: RegisterAccountForm) => {
     setError(null);
     setIsLoading(true);
-
     try {
       await registerWithEmail(email, password);
       navigate(PATHS.main.path);
@@ -36,7 +38,7 @@ const AuthRegister = () => {
     }
   };
 
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = useFormik<RegisterAccountForm>({
+  const formik = useFormik<RegisterAccountForm>({
     initialValues: {
       email: "",
       password: ""
@@ -53,31 +55,32 @@ const AuthRegister = () => {
 
       {error && <p className="error">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
-        />
+      {/* FormikProvider daje dostęp do formika wewnątrz <form> */}
+      <FormikProvider value={formik}>
+        <form onSubmit={formik.handleSubmit}>
+        <Field
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="Wprowadź email"
+            component={Input}
+            prefixIcon="AlternateEmailTwoTone"
+          />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
-        />
+          <Field
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Wprowadź hasło"
+            component={Input}
+            prefixIcon="PasswordTwoTone"
+          />
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Registering..." : "Register"}
-        </button>
-      </form>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+        </form>
+      </FormikProvider>
 
       <p>Already have an account?</p>
       <button onClick={goToAuthLogin}>Go to Login</button>

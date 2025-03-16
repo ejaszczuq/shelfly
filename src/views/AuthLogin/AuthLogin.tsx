@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { useFormik, Field, FormikProvider } from "formik";
 
 import { PATHS } from "@src/router/paths";
 import { useAuth } from "@src/contexts/Auth.context";
-
 import { loginSchema } from "./login.schema";
+
+import Input from "@src/components/common/Input/Input";
+
 import "./AuthLogin.scss";
+import DynamicIcon from "@src/components/common/DynamicIcon";
 
 interface LoginForm {
   email: string;
@@ -25,22 +28,28 @@ const AuthLogin = () => {
   const handleLoginWithEmail = async ({ email, password }: LoginForm) => {
     setError(null);
     setIsLoading(true);
-
     try {
       await loginWithEmail(email, password);
       navigate(PATHS.main.path);
     } catch (err: any) {
-      // console.error(err.message);
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleLoginWithGoogle = async () => {
+  const formik = useFormik<LoginForm>({
+    initialValues: {
+      email: "",
+      password: ""
+    },
+    validationSchema,
+    onSubmit: handleLoginWithEmail
+  });
+
+  const handleGoogleLogin = async () => {
     setError(null);
     setIsLoading(true);
-
     try {
       await loginWithGoogle();
       navigate(PATHS.main.path);
@@ -51,57 +60,49 @@ const AuthLogin = () => {
     }
   };
 
-  const handleGoToRegister = () => {
-    navigate(PATHS.authRegister.path);
-  };
-
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = useFormik<LoginForm>({
-    initialValues: {
-      email: "",
-      password: ""
-    },
-    validationSchema,
-    onSubmit: handleLoginWithEmail
-  });
-
   return (
     <div className="auth-login">
       <h1>Login</h1>
 
       {error && <p className="error">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
-        />
+      <FormikProvider value={formik}>
+        <form onSubmit={formik.handleSubmit}>
+          <Field
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="Wprowadź email"
+            component={Input}
+            prefixIcon="AlternateEmailTwoTone"
+          />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
-        />
+          <Field
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Wprowadź hasło"
+            component={Input}
+            prefixIcon="PasswordTwoTone"
+          />
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </FormikProvider>
 
-      <button onClick={handleLoginWithGoogle} disabled={isLoading}>
-        Login with Google
+      {/* Przyciski poza formularzem */}
+      <button
+        className="google-button"
+        onClick={handleGoogleLogin}
+        disabled={isLoading}
+      >
+        <DynamicIcon iconName="Google"/>
+        {isLoading ? "Logging in..." : "Login with Google"}
       </button>
 
-      <p>Don't have an account?</p>
-      <button onClick={handleGoToRegister}>Go to Register</button>
+      <p onClick={() => navigate(PATHS.authRegister.path)}>Don't have an account?</p>
     </div>
   );
 };
