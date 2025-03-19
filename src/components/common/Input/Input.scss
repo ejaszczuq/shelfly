@@ -37,7 +37,11 @@
         color: $blue-0;
       }
 
-      &.error .input-label {
+      .prefix-icon {
+        transition: color 0.2s ease-in-out;
+      }
+
+      &.error .input-label, .prefix-icon {
         color: $blue-0;
       }
     }

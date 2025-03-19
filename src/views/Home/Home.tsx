@@ -7,8 +7,7 @@ import DashboardLayout from "@src/components/layouts/DashboardLayout/DashboardLa
 import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./Home.scss";
-import ControlPanel from "@src/components/common/ControlPanel/ControlPanel";
-import BookModal from "@src/components/modals/bookModal/bookModal";
+import BookModal from "@src/components/modals/BookModal/BookModal";
 
 const Home = () => {
   const { filteredBooks, loading } = useBooks();
@@ -52,7 +51,7 @@ const Home = () => {
                   color="grey"
                 />
                 <DynamicIcon
-                  className="dynamic-icon"
+                  className="dynamic-icon delete"
                   iconName="DeleteTwoTone"
                   onClick={() => handleDeleteBook(id!)}
                   color="grey"
@@ -61,9 +60,6 @@ const Home = () => {
               </div>
             );
           })}
-      </div>
-      <div className="control-panel-wrapper">
-        <ControlPanel labelName="Filter by genres" />
       </div>
       {openBookModal && selectedBook && (
         <BookModal book={selectedBook} onClose={handleCloseBookModal} />
