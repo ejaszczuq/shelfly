@@ -6,7 +6,7 @@ import Portal from "@src/components/modals/shared/Portal/Portal";
 import Backdrop from "@src/components/modals/shared/Backdrop/Backdrop";
 import Modal from "@src/components/modals/shared/Modal/Modal";
 
-import "./bookModal.scss";
+import "./BookModal.scss";
 
 interface ModalProps {
   book: FirestoreBook;
@@ -22,7 +22,7 @@ const BookModal = ({ book, onClose }: ModalProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 10);
     return () => clearTimeout(timer);
   }, []);
 

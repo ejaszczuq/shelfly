@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@src/contexts/Auth.context";
@@ -10,12 +10,23 @@ import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./Navbar.scss";
 import SearchInput from "@src/components/common/SearchInput/SearchInput";
+import DeleteAccountModal from "@src/components/modals/DeleteAcountModal/DeleteAcountModal";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const { searchQuery, setSearchQuery } = useBooks();
   const { handleOpenAddBookModal } = useModals();
+
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
+
+  const openDeleteAccountModal = () => {
+    setIsDeleteAccountModalOpen(true);  // Otwiera modal
+  };
+
+  const closeDeleteAccountModal = () => {
+    setIsDeleteAccountModalOpen(false);  // Zamyka modal
+  };
 
   return (
     <nav className="navbar">
@@ -41,13 +52,25 @@ const Navbar: React.FC = () => {
       />
       </div>
 
-      {/* RIGHT SECTION: ikony */}
-      <div className="navbar-right">
+       {/* RIGHT SECTION: ikony */}
+       <div className="navbar-right">
         <DynamicIcon iconName="PostAdd" fontSize="large" color="action" onClick={handleOpenAddBookModal} />
         <DynamicIcon iconName="BookmarkTwoTone" fontSize="large" color="action" />
-        <DynamicIcon iconName="AccountCircleTwoTone" fontSize="large" color="action" />
+        <DynamicIcon
+          iconName="PersonRemoveTwoTone"
+          fontSize="large"
+          color="action"
+          onClick={openDeleteAccountModal}
+        />
         <DynamicIcon iconName="ExitToApp" fontSize="large" color="action" onClick={logout} />
       </div>
+
+      {/* Modal do usuwania konta */}
+      {isDeleteAccountModalOpen && (
+        <DeleteAccountModal
+          onClose={closeDeleteAccountModal}
+        />
+      )}
     </nav>
   );
 };

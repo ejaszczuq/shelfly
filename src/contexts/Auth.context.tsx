@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { deleteUser } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -26,6 +27,7 @@ interface ContextValue {
   registerWithEmail: (email: string, password: string) => Promise<UserCredential>;
   resetPassword: (email: string) => Promise<void>;
   logout: () => Promise<void>;
+  deleteAccount: () => Promise<void>; 
 }
 
 export type AuthStatus = "logging" | "loggedIn" | "loggedOut";
@@ -57,6 +59,21 @@ export const AuthProvider = ({ children }: ContextProps) => {
 
     return () => unsubscribe();
   }, []);
+
+  const deleteAccount = async () => {
+    if (!user) {
+      throw new Error("Brak zalogowanego użytkownika.");
+    }
+
+    try {
+      await deleteUser(user);  // Usunięcie konta użytkownika
+      setUser(null);
+      setAuthStatus("loggedOut");
+      navigate(PATHS.authLogin.path);  // Przekierowanie na stronę logowania po usunięciu konta
+    } catch (error) {
+      throw new Error("Wystąpił problem przy usuwaniu konta.");
+    }
+  };
 
   // AuthProvider dostarcza funkcje logowania, rejestracji, wylogowania itp.
   const loginWithGoogle = async () => {
@@ -120,7 +137,8 @@ export const AuthProvider = ({ children }: ContextProps) => {
     loginWithEmail,
     registerWithEmail,
     resetPassword,
-    logout
+    logout,
+    deleteAccount
   };
   // Udostepnienie kontekstu dla calej aplikacji
   /// Udostepnia caly kontekst (user, authStatus, metody logowania) wszystkim komponentom
