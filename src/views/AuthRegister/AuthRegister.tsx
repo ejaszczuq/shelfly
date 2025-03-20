@@ -6,7 +6,6 @@ import { PATHS } from "@src/router/paths";
 import { useAuth } from "@src/contexts/Auth.context";
 import { registerAccountSchema } from "./registerAccount.schema";
 
-// Własny komponent Input (taki sam używany w AuthLogin)
 import Input from "@src/components/common/Input/Input";
 
 import "./AuthRegister.scss";
@@ -51,14 +50,13 @@ const AuthRegister = () => {
 
   return (
     <div className="auth-register">
-      <h1>Register</h1>
+      <h1>Rejestracja</h1>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-global">{error}</p>}
 
-      {/* FormikProvider daje dostęp do formika wewnątrz <form> */}
       <FormikProvider value={formik}>
         <form onSubmit={formik.handleSubmit}>
-        <Field
+          <Field
             name="email"
             type="email"
             label="Email"
@@ -70,20 +68,20 @@ const AuthRegister = () => {
           <Field
             name="password"
             type="password"
-            label="Password"
+            label="Hasło"
             placeholder="Wprowadź hasło"
             component={Input}
             prefixIcon="PasswordTwoTone"
           />
 
           <button type="submit" disabled={isLoading}>
-            {isLoading ? "Registering..." : "Register"}
+            {isLoading ? "Rejestrowanie..." : "Zarejestruj się"}
           </button>
         </form>
       </FormikProvider>
 
-      <p>Already have an account?</p>
-      <button onClick={goToAuthLogin}>Go to Login</button>
+      <p>Masz już konto?</p>
+      <button onClick={goToAuthLogin}>Przejdź do logowania</button>
     </div>
   );
 };
