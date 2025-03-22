@@ -1,0 +1,135 @@
+@use "@scss/global.scss" as *;
+
+.input-container {
+  position: relative;
+  margin: 16px 0;
+
+  &.outlined {
+    border: 1px solid $grey-2;
+    border-radius: 4px;
+    padding: 0.75rem;
+    transition: border-color 0.3s ease-in-out;
+
+    .input-label {
+      position: absolute;
+      top: 0;
+      left: 1rem;
+
+      transform: translateY(-50%);
+
+      background-color: $black-1;
+      padding: 0 8px;
+      color: $white-1;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: color 0.2s ease-in-out;
+    }
+
+    &.error .input-label {
+      color: $error;
+    }
+
+    &:has(.input-field:focus),
+    &:has(.textarea:focus) {
+      border-color: $blue-0;
+
+      .input-label {
+        color: $blue-0;
+      }
+
+      .prefix-icon {
+        transition: color 0.2s ease-in-out;
+      }
+
+      &.error .input-label,
+      .prefix-icon {
+        color: $blue-0;
+      }
+    }
+
+    &.error {
+      border-color: $error;
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+
+    .prefix-icon {
+      position: absolute;
+      left: 0.75rem;
+      pointer-events: none;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .clear-icon {
+      position: absolute;
+      right: 0.75rem;
+      cursor: pointer;
+      color: $white-1;
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:hover {
+        color: $grey-2;
+      }
+    }
+
+    .input-field,
+    .textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: $white-0;
+      font-size: 1rem;
+      box-sizing: border-box;
+      padding: 0.5rem;
+      padding-left: 3rem;
+      color: $white-1;
+
+      &:focus {
+        color: $white-0;
+      }
+    }
+
+    .input-field[type="number"] {
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    .textarea {
+      min-height: 80px;
+      padding-top: 1rem;
+      padding-left: 1rem;
+      resize: none;
+
+      & ~ .clear-icon {
+        top: 0.7rem;
+        transform: none;
+        cursor: pointer;
+        color: $white-0;
+        background-color: $white-1;
+        border-radius: 1rem;
+        padding: 3px;
+      }
+    }
+
+    .char-count {
+      position: absolute;
+      bottom: 0.25rem;
+      right: 0.75rem;
+      font-size: 0.75rem;
+      color: $white-0;
+      background-color: $white-1;
+      border-radius: 1rem;
+      padding: 2px;
+    }
+  }
+}

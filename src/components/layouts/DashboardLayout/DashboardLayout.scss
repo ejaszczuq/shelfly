@@ -1,0 +1,28 @@
+@use "@scss/global.scss" as *;
+
+.dashboard-layout {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-top: 70px;
+  height: 100%;
+
+  // &__navbar {
+  // }
+
+  &__content {
+    display: flex;
+    flex-grow: 1;
+  }
+  &__sidebar {
+    background-color: $black-1;
+    padding: 20px 20px 20px 10px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  &__main {
+    flex-grow: 1;
+  }
+}

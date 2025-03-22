@@ -1,0 +1,42 @@
+@use "@scss/global.scss" as *;
+
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  height: max-content;
+  max-height: 95vh;
+  width: max-content;
+  padding: 20px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+
+  background-color: $black-1;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: $box-shadow-0;
+
+  &-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+
+    path {
+      fill: $white-0;
+    }
+  }
+
+  &-content {
+    position: relative;
+    display: flex;
+    width: 100%;
+  }
+
+  @include mq-max($md) {
+    width: 100%;
+    padding: 15px;
+  }
+}

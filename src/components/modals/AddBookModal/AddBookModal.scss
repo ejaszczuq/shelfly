@@ -1,0 +1,90 @@
+@use "@scss/global.scss" as *;
+
+.add-book-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 375px;
+
+  h2 {
+    color: $white-0;
+    font-weight: $bold;
+    font-size: 22px;
+    margin-bottom: 10px;
+    border-bottom: 5px solid $blue-0;
+    width: max-content;
+  }
+
+  button {
+    background-color: $blue-0;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: $white-0;
+    text-transform: capitalize;
+    font: {
+      family: "Roboto", sans-serif;
+      size: 18px;
+    }
+    padding: 20px 0px;
+    width: 350px;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  button {
+    position: relative;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: $white-0;
+    background-color: $blue-0;
+    border: 2px solid $blue-0;
+    border-radius: 6px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+
+    &::before {
+      content: "➡";
+      font-size: 20px;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      width: 30px;
+      height: 100%;
+      color: $white-0;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:hover {
+      background-color: darken($blue-0, 10%);
+      border-color: darken($blue-0, 15%);
+      text-indent: -10px;
+
+      &::before {
+        right: 12px;
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      background-color: darken($blue-0, 20%);
+      border-color: darken($blue-0, 25%);
+      transform: scale(0.95);
+    }
+  }
+
+  .error {
+    color: $error;
+    font-weight: $medium;
+    text-align: center;
+    font-size: 14px;
+  }
+}

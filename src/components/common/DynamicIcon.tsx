@@ -3,18 +3,15 @@ import * as MuiIcons from "@mui/icons-material";
 
 type IconProps = {
   iconName: string;
-  [key: string]: any; 
+  [key: string]: any;
 };
 
 const DynamicIcon: React.FC<IconProps> = ({ iconName, ...props }) => {
-  
   const IconComponent = (MuiIcons as any)[iconName];
 
-  if (!IconComponent) {
-    return <span>Ikona nieznaleziona</span>;
-  }
-
   return <IconComponent {...props} />;
+
+  // iconNames from - https://mui.com/material-ui/material-icons/
 };
 
 export default DynamicIcon;
