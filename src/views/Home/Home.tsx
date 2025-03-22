@@ -25,7 +25,6 @@ const Home = () => {
         {!loading &&
           filteredBooks.map((book) => {
             const { id, title, src } = book;
-
             return (
               <div key={id} className="book-details">
                 <h4>{title}</h4>

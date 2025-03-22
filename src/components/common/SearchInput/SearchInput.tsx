@@ -1,6 +1,7 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+
 import DynamicIcon from "@src/components/common/DynamicIcon";
-import { t } from "i18next";
 
 import "./SearchInput.scss";
 
@@ -11,6 +12,8 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, placeholder }) => {
+  const { t } = useTranslation(["common"]);
+
   return (
     <div className="input-section">
       <DynamicIcon iconName="SearchTwoTone" fontSize="medium" color="action" className="input-icon" />

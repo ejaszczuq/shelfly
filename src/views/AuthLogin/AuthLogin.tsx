@@ -16,6 +16,11 @@ interface LoginForm {
   password: string;
 }
 
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
 const AuthLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
