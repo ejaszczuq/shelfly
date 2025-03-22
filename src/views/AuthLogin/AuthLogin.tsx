@@ -7,9 +7,14 @@ import { useAuth } from "@src/contexts/Auth.context";
 import { loginSchema } from "./login.schema";
 
 import Input from "@src/components/common/Input/Input";
+import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./AuthLogin.scss";
-import DynamicIcon from "@src/components/common/DynamicIcon";
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
 interface LoginForm {
   email: string;
@@ -93,12 +98,8 @@ const AuthLogin = () => {
       </FormikProvider>
 
       {/* Przyciski poza formularzem */}
-      <button
-        className="google-button"
-        onClick={handleGoogleLogin}
-        disabled={isLoading}
-      >
-        <DynamicIcon iconName="Google"/>
+      <button className="google-button" onClick={handleGoogleLogin} disabled={isLoading}>
+        <DynamicIcon iconName="Google" />
         {isLoading ? "Logging in..." : "Login with Google"}
       </button>
 

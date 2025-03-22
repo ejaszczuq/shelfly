@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@src/contexts/Auth.context";
@@ -7,26 +7,18 @@ import { useBooks } from "@src/contexts/Books.context";
 import { scrollToTop } from "@src/utils/scrollToTop";
 
 import DynamicIcon from "@src/components/common/DynamicIcon";
+import SearchInput from "@src/components/common/SearchInput/SearchInput";
 
 import "./Navbar.scss";
-import SearchInput from "@src/components/common/SearchInput/SearchInput";
-import DeleteAccountModal from "@src/components/modals/DeleteAcountModal/DeleteAcountModal";
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const { searchQuery, setSearchQuery } = useBooks();
-  const { handleOpenAddBookModal } = useModals();
+  const { openModal } = useModals();
 
-  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
-
-  const openDeleteAccountModal = () => {
-    setIsDeleteAccountModalOpen(true);  // Otwiera modal
-  };
-
-  const closeDeleteAccountModal = () => {
-    setIsDeleteAccountModalOpen(false);  // Zamyka modal
-  };
+  const handleOpenAddBookModal = () => openModal({ type: "addBook" });
+  const handleOpenDeleteAccountModal = () => openModal({ type: "deleteAccount" });
 
   return (
     <nav className="navbar">
@@ -46,31 +38,21 @@ const Navbar: React.FC = () => {
 
       {/* CENTER SECTION: wyszukiwarka */}
       <div className="navbar-center">
-      <SearchInput
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+        <SearchInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
       </div>
 
-       {/* RIGHT SECTION: ikony */}
-       <div className="navbar-right">
+      {/* RIGHT SECTION: ikony */}
+      <div className="navbar-right">
         <DynamicIcon iconName="PostAdd" fontSize="large" color="action" onClick={handleOpenAddBookModal} />
         <DynamicIcon iconName="BookmarkTwoTone" fontSize="large" color="action" />
         <DynamicIcon
           iconName="PersonRemoveTwoTone"
           fontSize="large"
           color="action"
-          onClick={openDeleteAccountModal}
+          onClick={handleOpenDeleteAccountModal}
         />
         <DynamicIcon iconName="ExitToApp" fontSize="large" color="action" onClick={logout} />
       </div>
-
-      {/* Modal do usuwania konta */}
-      {isDeleteAccountModalOpen && (
-        <DeleteAccountModal
-          onClose={closeDeleteAccountModal}
-        />
-      )}
     </nav>
   );
 };

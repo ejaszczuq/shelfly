@@ -13,11 +13,20 @@
   max-width: calc(100vw - 32px);
   box-sizing: border-box;
 
+  background-color: $black-1;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: $box-shadow-0;
+
   &-close-btn {
     position: absolute;
-    top: 3rem;
-    right: 3rem;
+    top: 15px;
+    right: 15px;
     cursor: pointer;
+
+    path {
+      fill: $white-0;
+    }
   }
 
   &-content {
@@ -29,14 +38,5 @@
   @include mq-max($md) {
     width: 100%;
     padding: 15px;
-  }
-
-  svg {
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-      fill: $white-0;
-    }
   }
 }

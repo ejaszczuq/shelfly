@@ -1,5 +1,6 @@
 import React from "react";
-import { deleteUserBook } from "@src/firebase/bookService";
+
+import { FirestoreBook } from "@src/firebase/bookService";
 import { useModals } from "@src/contexts/Modals.context";
 import { useBooks } from "@src/contexts/Books.context";
 
@@ -7,25 +8,14 @@ import DashboardLayout from "@src/components/layouts/DashboardLayout/DashboardLa
 import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./Home.scss";
-import BookModal from "@src/components/modals/BookModal/BookModal";
 
 const Home = () => {
   const { filteredBooks, loading } = useBooks();
-  const {
-    handleOpenEditBookModal,
-    handleOpenBookModal,
-    openBookModal,
-    selectedBook,
-    handleCloseBookModal,
-  } = useModals();
+  const { openModal } = useModals();
 
-  const handleDeleteBook = async (bookId: string) => {
-    try {
-      await deleteUserBook(bookId);
-    } catch (error) {
-      console.error("Błąd usuwania książki:", error);
-    }
-  };
+  const handleOpenBookDetailsModal = (book: FirestoreBook) => openModal({ type: "bookDetails", data: { book } });
+  const handleOpenEditBookModal = (book: FirestoreBook) => openModal({ type: "editBook", data: { book } });
+  const handleOpenDeleteBookModal = (book: FirestoreBook) => openModal({ type: "deleteBook", data: { book } });
 
   return (
     <div className="home">
@@ -42,7 +32,7 @@ const Home = () => {
                   className="dynamic-icon"
                   iconName="ContactSupportTwoTone"
                   color="grey"
-                  onClick={() => handleOpenBookModal(book)}
+                  onClick={() => handleOpenBookDetailsModal(book)}
                 />
                 <DynamicIcon
                   className="dynamic-icon"
@@ -53,7 +43,7 @@ const Home = () => {
                 <DynamicIcon
                   className="dynamic-icon delete"
                   iconName="DeleteTwoTone"
-                  onClick={() => handleDeleteBook(id!)}
+                  onClick={() => handleOpenDeleteBookModal(book)}
                   color="grey"
                 />
                 {src && <img src={src} alt={`${title}-img`} />}
@@ -61,9 +51,6 @@ const Home = () => {
             );
           })}
       </div>
-      {openBookModal && selectedBook && (
-        <BookModal book={selectedBook} onClose={handleCloseBookModal} />
-      )}
     </div>
   );
 };

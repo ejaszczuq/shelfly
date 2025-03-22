@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 
 import { updateUserBook, FirestoreBook } from "@src/firebase/bookService";
-import { useAuth } from "@src/contexts/Auth.context";
+import { useModals } from "@src/contexts/Modals.context";
 
 import Portal from "@src/components/modals/shared/Portal/Portal";
 import Backdrop from "@src/components/modals/shared/Backdrop/Backdrop";
@@ -14,7 +14,6 @@ import "./EditBookModal.scss";
 
 interface ModalProps {
   book: FirestoreBook;
-  onClose(): void;
 }
 
 interface EditBookForm {
@@ -25,20 +24,16 @@ interface EditBookForm {
   description: string;
 }
 
-const EditBookModal = ({ book, onClose }: ModalProps) => {
+const EditBookModal = ({ book }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user } = useAuth();
+  const { closeModal } = useModals();
+
   const validationSchema = generateAddEditBookSchema();
 
   // Obsługa edycji książki
   const handleSubmit = async (values: EditBookForm) => {
-    if (!user) {
-      setError("Musisz być zalogowany, aby edytować książkę.");
-      return;
-    }
-
     if (!book.id) return;
 
     setLoading(true);
@@ -46,7 +41,7 @@ const EditBookModal = ({ book, onClose }: ModalProps) => {
 
     try {
       await updateUserBook(book.id, values);
-      onClose();
+      closeModal();
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -65,7 +60,7 @@ const EditBookModal = ({ book, onClose }: ModalProps) => {
   return (
     <Portal>
       <Backdrop open>
-        <Modal onClose={onClose}>
+        <Modal onClose={closeModal}>
           <Formik
             initialValues={initialValues}
             enableReinitialize={true} // Aktualizuje wartości po pobraniu książki
@@ -75,19 +70,31 @@ const EditBookModal = ({ book, onClose }: ModalProps) => {
             {({ handleSubmit }) => (
               <Form onSubmit={handleSubmit} className="edit-book-modal">
                 <h2>Edytuj książkę</h2>
-                {error && <p className="error">{error}</p>}
 
                 {/* Tytuł */}
-                <Field name="title" label="Tytuł" component={Input} variant="outlined" prefixIcon="TextFormatTwoTone"/>
+                <Field name="title" label="Tytuł" component={Input} variant="outlined" prefixIcon="TextFormatTwoTone" />
 
                 {/* Autor */}
-                <Field name="author" label="Autor" component={Input} variant="outlined" prefixIcon="EmojiPeopleTwoTone"/>
+                <Field
+                  name="author"
+                  label="Autor"
+                  component={Input}
+                  variant="outlined"
+                  prefixIcon="EmojiPeopleTwoTone"
+                />
 
                 {/* Rok wydania */}
-                <Field name="year" label="Rok wydania" type="number" component={Input} variant="outlined" prefixIcon="InsertInvitationTwoTone"/>
+                <Field
+                  name="year"
+                  label="Rok wydania"
+                  type="number"
+                  component={Input}
+                  variant="outlined"
+                  prefixIcon="InsertInvitationTwoTone"
+                />
 
                 {/* Gatunek */}
-                <Field name="genre" label="Gatunek" component={Input} variant="outlined" prefixIcon="CategoryTwoTone"/>
+                <Field name="genre" label="Gatunek" component={Input} variant="outlined" prefixIcon="CategoryTwoTone" />
 
                 {/* Opis */}
                 <Field
@@ -100,6 +107,7 @@ const EditBookModal = ({ book, onClose }: ModalProps) => {
                 />
 
                 {loading && <p className="loading-dots">Zapisywanie...</p>}
+                {error && <p className="error">{error}</p>}
 
                 <button type="submit" disabled={loading}>
                   {loading ? "Zapisywanie..." : "Zapisz zmiany"}

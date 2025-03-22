@@ -1,17 +1,12 @@
 @use "@scss/global.scss" as *;
 
-.book-modal {
-  background-color: $black-1;
+.book-details-modal {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 25px;
   max-width: 500px;
   min-width: 400px;
   min-height: 400px;
-  margin: 10px auto;
-  border-radius: 10px;
-  box-shadow: $box-shadow-0;
 
   h1 {
     color: $white-0;

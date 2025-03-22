@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { PATHS } from "@src/router/paths";
-import { useAuth } from "@src/contexts/Auth.context";
+import { deleteUserBook, FirestoreBook } from "@src/firebase/bookService";
 import { useModals } from "@src/contexts/Modals.context";
 
 import Portal from "@src/components/modals/shared/Portal/Portal";
 import Backdrop from "@src/components/modals/shared/Backdrop/Backdrop";
 import Modal from "@src/components/modals/shared/Modal/Modal";
 
-import "./DeleteAcountModal.scss";
+import "./DeleteBookModal.scss";
 
-const DeleteAccountModal = () => {
+interface ModalProps {
+  book: FirestoreBook;
+}
+
+const DeleteBookModal = ({ book }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const navigate = useNavigate();
-  const { deleteAccount } = useAuth();
   const { closeModal } = useModals();
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteBook = async () => {
+    if (!book.id) return;
+
     setLoading(true);
     setError(null);
 
     try {
-      await deleteAccount();
-      closeModal();
-      alert("Twoje konto zostało usunięte.");
-      navigate(PATHS.authLogin.path);
-    } catch (err: any) {
-      setError("Wystąpił błąd przy usuwaniu konta.");
+      await deleteUserBook(book.id);
+      closeModal?.();
+    } catch (error: any) {
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -39,16 +39,16 @@ const DeleteAccountModal = () => {
     <Portal>
       <Backdrop open>
         <Modal onClose={closeModal}>
-          <div className="delete-account-modal">
-            <h3>Czy na pewno chcesz usunąć swoje konto?</h3>
+          <div className="delete-book-modal">
+            <h3>Czy na pewno chcesz usunąć książkę?</h3>
             {error && <p className="error">{error}</p>}
 
             {loading ? (
-              <p className="loading">Usuwanie konta...</p>
+              <p className="loading">Usuwanie ksiązki...</p>
             ) : (
               <div className="modal-actions">
-                <button className="modal-btn delete" onClick={handleDeleteAccount}>
-                  Tak, usuń konto
+                <button className="modal-btn delete" onClick={handleDeleteBook}>
+                  Tak, usuń książkę
                 </button>
                 <button className="modal-btn" onClick={closeModal}>
                   Nie, anuluj
@@ -62,4 +62,4 @@ const DeleteAccountModal = () => {
   );
 };
 
-export default DeleteAccountModal;
+export default DeleteBookModal;

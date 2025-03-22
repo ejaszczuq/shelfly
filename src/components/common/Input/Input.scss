@@ -41,7 +41,8 @@
         transition: color 0.2s ease-in-out;
       }
 
-      &.error .input-label, .prefix-icon {
+      &.error .input-label,
+      .prefix-icon {
         color: $blue-0;
       }
     }
@@ -107,6 +108,7 @@
       min-height: 80px;
       padding-top: 1rem;
       padding-left: 1rem;
+      resize: none;
 
       & ~ .clear-icon {
         top: 0.7rem;

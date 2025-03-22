@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 
 import { addBook } from "@src/firebase/bookService";
-import { useAuth } from "@src/contexts/Auth.context";
+import { useModals } from "@src/contexts/Modals.context";
 
 import Portal from "@src/components/modals/shared/Portal/Portal";
 import Backdrop from "@src/components/modals/shared/Backdrop/Backdrop";
@@ -12,10 +12,6 @@ import Input from "@src/components/common/Input/Input";
 import { generateAddEditBookSchema } from "./addBook.schema";
 import "./AddBookModal.scss";
 
-interface ModalProps {
-  onClose?(): void;
-}
-
 interface AddBookForm {
   title: string;
   author: string;
@@ -24,26 +20,21 @@ interface AddBookForm {
   description: string;
 }
 
-const AddBookModal = ({ onClose }: ModalProps) => {
+const AddBookModal = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user } = useAuth();
+  const { closeModal } = useModals();
 
   const validationSchema = generateAddEditBookSchema();
 
   const handleAddBook = async (values: AddBookForm) => {
-    if (!user) {
-      setError("Musisz być zalogowany, aby dodać książkę.");
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
     try {
       await addBook(values);
-      onClose?.(); // Zamknięcie modala po dodaniu książki
+      closeModal?.(); // Zamknięcie modala po dodaniu książki
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -54,7 +45,7 @@ const AddBookModal = ({ onClose }: ModalProps) => {
   return (
     <Portal>
       <Backdrop open>
-        <Modal onClose={onClose}>
+        <Modal onClose={closeModal}>
           <Formik
             initialValues={{
               title: "",
@@ -69,7 +60,6 @@ const AddBookModal = ({ onClose }: ModalProps) => {
             {({ handleSubmit }) => (
               <Form onSubmit={handleSubmit} className="add-book-modal">
                 <h2>Dodaj nową książkę</h2>
-                {error && <p className="error">{error}</p>}
 
                 {/* Tytuł */}
                 <Field
@@ -125,6 +115,7 @@ const AddBookModal = ({ onClose }: ModalProps) => {
                 />
 
                 {loading && <p className="loading-dots">Wysyłanie...</p>}
+                {error && <p className="error">{error}</p>}
 
                 <button type="submit" disabled={loading}>
                   {loading ? "Dodawanie..." : "Dodaj książkę"}
