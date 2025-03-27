@@ -1,0 +1,42 @@
+{
+  "no": "No, cancel",
+  "inputs": {
+    "title": {
+      "label": "Title",
+      "placeholder": "Enter title"
+    },
+    "author": {
+      "label": "Author",
+      "placeholder": "Enter author"
+    },
+    "year": {
+      "label": "Year",
+      "placeholder": "Enter year",
+      "max": "Year cannot be greater than"
+    },
+    "genre": {
+      "label": "Genre",
+      "placeholder": "Specify genre (e.g. Fantasy, Sci-Fi)"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Provide a description of the book"
+    }
+  },
+  "addBook": {
+    "title": "Add new book"
+  },
+  "editBook": {
+    "title": "Edit book"
+  },
+  "deleteBook": {
+    "title": "Are you sure you want to delete the book?",
+    "deletingBook": "Deleting book",
+    "yes": "Yes, delete the book"
+  },
+  "deleteAccount": {
+    "title": "Are you sure you want to delete your account?",
+    "deletingAccount": "Deleting account...",
+    "yes": "Yes, delete account"
+  }
+}

@@ -1,4 +1,6 @@
 @use "./variables.scss" as *;
+@use "./mixins.scss" as *;
+
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
@@ -16,56 +18,56 @@ html {
 h1,
 .h1 {
   font-weight: $bold;
-  font-size: 46px;
   line-height: 120%;
+  @include responsive-type(h1);
 }
 
 h2,
 .h2 {
   font-weight: $bold;
-  font-size: 38px;
   line-height: 120%;
+  @include responsive-type(h2);
 }
 
 h3,
 .h3 {
   font-weight: $bold;
-  font-size: 30px;
   line-height: 120%;
+  @include responsive-type(h3);
 }
 
 h4,
 .h4 {
   font-weight: $bold;
-  font-size: 25px;
   line-height: 120%;
+  @include responsive-type(h4);
 }
 
 h5,
 .h5 {
   font-weight: $bold;
-  font-size: 22px;
   line-height: 120%;
+  @include responsive-type(h5);
 }
 
 h6,
 .h6 {
   font-weight: $bold;
-  font-size: 18px;
   line-height: 120%;
+  @include responsive-type(h6);
 }
 
 p,
 .p0 {
   font-weight: $regular;
-  font-size: 16px;
   line-height: 120%;
+  @include responsive-type(p);
 }
 
 .p1 {
   font-weight: $regular;
-  font-size: 14px;
   line-height: 120%;
+  @include responsive-type(p1);
 }
 
 // Colors classes ***********************************************************
@@ -83,3 +85,4 @@ p,
 .black-0-bg {
   background-color: $black-0;
 }
+

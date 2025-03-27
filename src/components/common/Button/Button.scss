@@ -1,0 +1,119 @@
+@use "@scss/global.scss" as *;
+
+button {
+  // The main version of the button
+  &.primary-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: $white-0;
+    background-color: $blue-0;
+    border: 2px solid $blue-0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    max-width: 100%;
+
+    &:hover {
+      background-color: darken($blue-0, 10%);
+      border-color: darken($blue-0, 15%);
+    }
+
+    &:active {
+      background-color: darken($blue-0, 20%);
+      border-color: darken($blue-0, 25%);
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+ // Version with animated arrow
+  &.primary-with-arrow-button {
+    @extend .primary-button;
+    position: relative;
+    overflow: hidden;
+    text-indent: 0;
+
+    &::before {
+      content: "➡";
+      font-size: 20px;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      width: 30px;
+      height: 100%;
+      color: $white-0;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:hover {
+      text-indent: -10px;
+
+      &::before {
+        right: 12px;
+        opacity: 1;
+      }
+    }
+  }
+
+  // Second variant of the button (transparent)
+  &.secondary-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: $white-0;
+    background-color: transparent;
+    border: 1px solid $white-0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &.delete {
+        border-color:#d32f2f;
+
+        &:hover {
+          background-color: #d32f2f;
+        }
+      }
+
+    &.google, &.small {
+        margin: auto;
+        margin-top: 1rem;
+        padding: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid $white-0;
+        font-weight: $medium;
+        transition: background-color 0.3s, box-shadow 0.3s;
+  
+        svg {
+          margin-right: 0.5rem;
+        }
+  
+        &:hover {
+          background-color: lighten($grey-1, 20%);
+          box-shadow: $box-shadow-0;
+        }
+      }
+  }
+}

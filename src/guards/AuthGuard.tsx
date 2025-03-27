@@ -6,25 +6,25 @@ import { IChildren } from "@src/types/IChildren.types";
 import { useAuth } from "@src/contexts/Auth.context";
 import LoadingScreen from "@src/views/LoadingScreen/LoadingScreen";
 
-// AuthGuard – blokowanie dostępu do stron
+// AuthGuard - blocking access to sites
 const AuthGuard = ({ children }: IChildren) => {
-  // Pobranie authStatus z useAuth(), czyli Auth.context.tsx
+  // Retrieve authStatus from useAuth(), i.e. Auth.context.tsx
   const { authStatus } = useAuth();
 
-  // ------- Co robi ten plik?
-  // Sprawdza, czy uzytkownik jest zalogowany.
-  // Jesli nie – przekierowuje na strone logowania.
+  // ------- What does this file do?
+  // Checks if the user is logged in.
+  // If not - redirects to the login page.
 
-  if (authStatus === "logging") return <LoadingScreen />; // Wyswietlenie ekranu ladowania
-  if (authStatus === "loggedOut") return <Navigate to={PATHS.authLogin.path} />; // Nie zalogowany -> "/login"
+  if (authStatus === "logging") return <LoadingScreen />; // Displaying the loading screen
+  if (authStatus === "loggedOut") return <Navigate to={PATHS.authLogin.path} />; // Not logged in -> “/login”
 
-  return <>{children}</>; // Zalogowany
+  return <>{children}</>; // Logged in
 };
 
-// Jest to uzywane w app.routes.tsx:
+// This is used in app.routes.tsx:
 /*
-    <AuthGuard>
+    <AuthGuard>.
       <Outlet />
-    </AuthGuard>
+    </AuthGuard>.
 */
 export default AuthGuard;

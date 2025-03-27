@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
+import { useTranslation } from "react-i18next";
 
 import { updateUserBook, FirestoreBook } from "@src/firebase/bookService";
 import { useModals } from "@src/contexts/Modals.context";
@@ -11,12 +12,13 @@ import Input from "@src/components/common/Input/Input";
 
 import { generateAddEditBookSchema } from "./editBook.schema";
 import "./EditBookModal.scss";
+import Button from "@src/components/common/Button/Button";
 
 interface ModalProps {
   book: FirestoreBook;
 }
 
-interface EditBookForm {
+interface EditBookFormValues {
   title: string;
   author: string;
   year: number;
@@ -28,13 +30,14 @@ const EditBookModal = ({ book }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { t } = useTranslation(["modals", "common"]);
   const { closeModal } = useModals();
 
   const validationSchema = generateAddEditBookSchema();
 
-  // Obsługa edycji książki
-  const handleSubmit = async (values: EditBookForm) => {
-    if (!book.id) return;
+  // Handling book editing
+  const handleSubmit = async (values: EditBookFormValues) => {
+    if (!book.id || loading) return;
 
     setLoading(true);
     setError(null);
@@ -63,55 +66,71 @@ const EditBookModal = ({ book }: ModalProps) => {
         <Modal onClose={closeModal}>
           <Formik
             initialValues={initialValues}
-            enableReinitialize={true} // Aktualizuje wartości po pobraniu książki
+            enableReinitialize={true} // Updates values after downloading a book
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({ handleSubmit }) => (
               <Form onSubmit={handleSubmit} className="edit-book-modal">
-                <h2>Edytuj książkę</h2>
+                <h2>{t("modals:editBook.title")}</h2>
 
-                {/* Tytuł */}
-                <Field name="title" label="Tytuł" component={Input} variant="outlined" prefixIcon="TextFormatTwoTone" />
+                {/* Title */}
+                <Field
+                  name="title"
+                  label={t("modals:editBook.inputs.title.label")}
+                  placeholder={t("modals:editBook.inputs.title.placeholder")}
+                  component={Input}
+                  variant="outlined"
+                  prefixIcon="TextFormatTwoTone"
+                />
 
-                {/* Autor */}
+                {/* Author */}
                 <Field
                   name="author"
-                  label="Autor"
+                  label={t("modals:editBook.inputs.author.label")}
+                  placeholder={t("modals:editBook.inputs.author.placeholder")}
                   component={Input}
                   variant="outlined"
                   prefixIcon="EmojiPeopleTwoTone"
                 />
 
-                {/* Rok wydania */}
+                {/* Year */}
                 <Field
                   name="year"
-                  label="Rok wydania"
                   type="number"
+                  label={t("modals:editBook.inputs.year.label")}
+                  placeholder={t("modals:editBook.inputs.year.placeholder")}
                   component={Input}
                   variant="outlined"
                   prefixIcon="InsertInvitationTwoTone"
                 />
 
-                {/* Gatunek */}
-                <Field name="genre" label="Gatunek" component={Input} variant="outlined" prefixIcon="CategoryTwoTone" />
+                {/* Genre */}
+                <Field
+                  name="genre"
+                  label={t("modals:editBook.inputs.genre.label")}
+                  placeholder={t("modals:editBook.inputs.genre.placeholder")}
+                  component={Input}
+                  variant="outlined"
+                  prefixIcon="CategoryTwoTone"
+                />
 
-                {/* Opis */}
+                {/* Description */}
                 <Field
                   name="description"
-                  label="Opis"
+                  label={t("modals:editBook.inputs.description.label")}
+                  placeholder={t("modals:editBook.inputs.description.placeholder")}
                   component={Input}
                   type="textarea"
                   maxLength={500}
                   variant="outlined"
                 />
 
-                {loading && <p className="loading-dots">Zapisywanie...</p>}
                 {error && <p className="error">{error}</p>}
 
-                <button type="submit" disabled={loading}>
-                  {loading ? "Zapisywanie..." : "Zapisz zmiany"}
-                </button>
+                <Button variant="primary-with-arrow" type="submit" disabled={loading}>
+                  {loading ? <span className="loading-dots">{t("common:saving")}</span> : t("common:save")}
+                </Button>
               </Form>
             )}
           </Formik>

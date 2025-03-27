@@ -1,0 +1,42 @@
+{
+  "no": "Nie, anuluj",
+  "inputs": {
+    "title": {
+      "label": "Tytuł",
+      "placeholder": "Podaj tytuł"
+    },
+    "author": {
+      "label": "Autor",
+      "placeholder": "Podaj autora"
+    },
+    "year": {
+      "label": "Rok wydania",
+      "placeholder": "Podaj rok",
+      "max": "Rok nie może być większy niż"
+    },
+    "genre": {
+      "label": "Gatunek",
+      "placeholder": "Podaj gatunek (np. Fantasy, Sci-Fi)"
+    },
+    "description": {
+      "label": "Opis",
+      "placeholder": "Podaj opis książki"
+    }
+  },
+  "addBook": {
+    "title": "Dodaj nową książkę"
+  },
+  "editBook": {
+    "title": "Edytuj książkę"
+  },
+  "deleteBook": {
+    "title": "Czy na pewno chcesz usunąć książkę?",
+    "deletingBook": "Usuwanie książki",
+    "yes": "Tak, usuń książkę"
+  },
+  "deleteAccount": {
+    "title": "Czy na pewno chcesz usunąć konto?",
+    "deletingAccount": "Usuwanie konta",
+    "yes": "Tak, usuń konto"
+  }
+}

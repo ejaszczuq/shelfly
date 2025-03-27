@@ -1,4 +1,36 @@
 {
+  "required": "This field is required",
+  "loading": "Loading",
+  "loadingBooks": "Loading books",
+  "noBooksData": "No books to display.",
+  "saving": "Saving",
+  "save": "Save",
+  "addBook": "Add book",
   "home": "Home",
-  "searchBooks": "Search Books..."
+  "searchForBooks": "Search for books",
+    "filterByGenres": {
+      "title": "Filter by genres",
+      "search": {
+        "placeholder": "Filter...",
+        "searchResults": "Search results"
+      },
+      "allGenres": "All genres",
+      "noGenres": "No genres found"
+    },
+  "notFound": {
+      "title": "Page not found",
+      "buttonText": "Go back to main page"  
+    },
+    "messages": {
+      "deleteBook": "Book has been deleted",
+      "deleteAccount": "Your account has been deleted.",
+      "errorMessages": {
+      "deleteBookError": "There was a problem deleting the book",
+      "deleteAccountError": "There was an issue deleting the account.",
+      "loginError": "There was a problem logging in.",
+      "registerError": "There was a problem registering the account.",
+      "resetPasswordError": "There was a problem resetting the password.",
+      "logoutError": "There was a problem logging out."
+    }
+  }
 }

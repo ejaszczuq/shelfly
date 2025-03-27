@@ -5,18 +5,20 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
-  height: max-content;
-  max-height: 95vh;
-  width: max-content;
-  padding: 20px;
-  max-width: calc(100vw - 32px);
   box-sizing: border-box;
 
+  width: 90vw;
+  max-width: 450px;
+  max-height: 95vh;
+  height: auto;
+
+  padding: 24px;
   background-color: $black-1;
-  padding: 25px;
   border-radius: 10px;
   box-shadow: $box-shadow-0;
+  overflow-y: auto;
+
+  overflow-x: hidden;
 
   &-close-btn {
     position: absolute;
@@ -32,11 +34,26 @@
   &-content {
     position: relative;
     display: flex;
+    flex-direction: column;
     width: 100%;
+    align-items: stretch; 
+
+    * {
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
   }
 
   @include mq-max($md) {
-    width: 100%;
-    padding: 15px;
+    max-width: 60vw;
+    padding: 20px;
+  }
+
+  @include mq-max($sm) {
+    max-width: 80vw;
+    max-height: 600px;
+    padding: 20px;
   }
 }

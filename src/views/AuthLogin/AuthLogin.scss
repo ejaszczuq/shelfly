@@ -1,21 +1,17 @@
 @use "@scss/global.scss" as *;
 
 .auth-login {
-  background: $gradient-0;
-  color: $white-0;
-  max-width: 400px;
-  margin: 10rem auto;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  width: 100%;
+  max-width: 420px;
   padding: 2rem;
-  box-shadow: $box-shadow-0;
   border-radius: 8px;
+  background: $gradient-0;
+  box-shadow: $box-shadow-0;
   text-align: center;
 
-  h1 {
-    margin-bottom: 1.5rem;
-    font-weight: $bold;
-  }
-
-  // Komunikat błędu
   .error {
     color: $error;
     margin-bottom: 1rem;
@@ -45,36 +41,6 @@
         opacity: 0.6;
         cursor: not-allowed;
       }
-    }
-  }
-
-  > button.google-button {
-    margin: auto;
-    margin-top: 1rem;
-    padding: 0.75rem;
-    border: 1px solid $white-0;
-    background-color: transparent;
-    color: $white-0;
-    font-weight: $medium;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s, box-shadow 0.3s;
-
-    svg {
-      margin-right: 0.5rem;
-    }
-
-    &:hover {
-      background-color: lighten($grey-1, 20%);
-      box-shadow: $box-shadow-0;
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
     }
   }
 

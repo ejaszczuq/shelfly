@@ -23,16 +23,16 @@ export const authRoutes: RouteObject = {
     },
     {
       path: PATHS.authLogin.path,
-      element: <AuthLogin />
+      element: AuthLogin
     },
     {
       path: PATHS.authRegister.path,
-      element: <AuthRegister />
+      element: AuthRegister
     }
   ]
 };
 
-// Kazda strona w protectedRoutes jest chroniona – dostep tylko dla zalogowanych!
+// Every page in protectedRoutes is protected - access only for those logged in!
 export const protectedRoutes: RouteObject = {
   element: (
     <AuthGuard>
@@ -57,7 +57,7 @@ export const otherRoutes: RouteObject = {
   children: [
     {
       path: PATHS.notFound.path,
-      element: <NotFound />
+      element: NotFound
     }
   ]
 };

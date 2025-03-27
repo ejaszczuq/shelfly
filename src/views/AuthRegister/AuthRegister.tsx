@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useFormik, Field, FormikProvider } from "formik";
 
 import { PATHS } from "@src/router/paths";
 import { useAuth } from "@src/contexts/Auth.context";
 import { registerAccountSchema } from "./registerAccount.schema";
 
+import BaseLayout from "@src/components/layouts/BaseLayout/BaseLayout";
 import Input from "@src/components/common/Input/Input";
 
 import "./AuthRegister.scss";
+import Button from "@src/components/common/Button/Button";
 
 interface RegisterAccountForm {
   email: string;
@@ -20,13 +23,17 @@ const AuthRegister = () => {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const { t } = useTranslation(["auth"]);
   const { registerWithEmail } = useAuth();
 
   const validationSchema = registerAccountSchema();
 
   const handleRegisterWithEmail = async ({ email, password }: RegisterAccountForm) => {
+    if (isLoading) return;
+
     setError(null);
     setIsLoading(true);
+
     try {
       await registerWithEmail(email, password);
       navigate(PATHS.main.path);
@@ -50,7 +57,7 @@ const AuthRegister = () => {
 
   return (
     <div className="auth-register">
-      <h1>Rejestracja</h1>
+      <h1>{t("auth:register.title")}</h1>
 
       {error && <p className="error-global">{error}</p>}
 
@@ -59,8 +66,8 @@ const AuthRegister = () => {
           <Field
             name="email"
             type="email"
-            label="Email"
-            placeholder="Wprowadź email"
+            label={t("auth:register.form.inputs.email.label")}
+            placeholder={t("auth:register.form.inputs.email.placeholder")}
             component={Input}
             prefixIcon="AlternateEmailTwoTone"
           />
@@ -68,22 +75,34 @@ const AuthRegister = () => {
           <Field
             name="password"
             type="password"
-            label="Hasło"
-            placeholder="Wprowadź hasło"
+            label={t("auth:register.form.inputs.password.label")}
+            placeholder={t("auth:register.form.inputs.password.placeholder")}
             component={Input}
             prefixIcon="PasswordTwoTone"
           />
 
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Rejestrowanie..." : "Zarejestruj się"}
-          </button>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          variant="primary-with-arrow"
+        >
+          {isLoading ? (
+            <span className="loading-dots">{t("auth:register.registering")}</span>
+          ) : (
+            t("auth:register.register")
+          )}
+        </Button>
         </form>
       </FormikProvider>
-
-      <p>Masz już konto?</p>
-      <button onClick={goToAuthLogin}>Przejdź do logowania</button>
-    </div>
+      <div className="underFromSection">
+      <p>{t("auth:register.alreadyHaveAnAccount")}</p>
+      <Button variant="secondary" className="small" onClick={goToAuthLogin}>{t("auth:register.goToLogin")}</Button>
+    </div></div>
   );
 };
 
-export default AuthRegister;
+export default (
+  <BaseLayout>
+    <AuthRegister />
+  </BaseLayout>
+);

@@ -1,3 +1,5 @@
+@use './variables.scss' as *;
+
 @mixin group {
   display: flex;
   flex-direction: row;
@@ -108,3 +110,47 @@
     outline: none !important;
   }
 }
+
+@mixin responsive-type($type) {
+  $sizes: map-get($typography-sizes, $type);
+
+  @if $sizes {
+    // Default value (xxs, if any)
+    @if map-has-key($sizes, xxs) {
+      font-size: map-get($sizes, xxs);
+    } @else if map-has-key($sizes, xs) {
+      font-size: map-get($sizes, xs);
+    }
+
+    @if map-has-key($sizes, xs) {
+      @include mq-min($xs) {
+        font-size: map-get($sizes, xs);
+      }
+    }
+    @if map-has-key($sizes, sm) {
+      @include mq-min($sm) {
+        font-size: map-get($sizes, sm);
+      }
+    }
+    @if map-has-key($sizes, md) {
+      @include mq-min($md) {
+        font-size: map-get($sizes, md);
+      }
+    }
+    @if map-has-key($sizes, lg) {
+      @include mq-min($lg) {
+        font-size: map-get($sizes, lg);
+      }
+    }
+    @if map-has-key($sizes, xl) {
+      @include mq-min($xl) {
+        font-size: map-get($sizes, xl);
+      }
+    }
+  } @else {
+    @warn "Nie znaleziono rozmiarów typografii dla '#{$type}'";
+  }
+}
+
+
+

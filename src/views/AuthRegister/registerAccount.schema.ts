@@ -1,15 +1,20 @@
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
-export const registerAccountSchema = () =>
+export const registerAccountSchema = () => {
+
+  const {t} = useTranslation(["common", "auth"]);
+
   yup.object({
     email: yup.string()
-      .email("Podaj poprawny adres email")
-      .required("To pole jest wymagane"),
+      .email(`${t("auth:email.email")}`)
+      .required(`${t("common:required")}`),
     password: yup.string()
-      .required("To pole jest wymagane")
-      .min(8, "Hasło musi mieć min. 8 znaków")
-      .matches(/[A-Z]/, "Hasło musi zawierać min. jedną wielką literę")
-      .matches(/[a-z]/, "Hasło musi zawierać min. jedną małą literę")
-      .matches(/[0-9]/, "Hasło musi zawierać min. jedną cyfrę")
-      .matches(/[@$!%*?&]/, "Wymagany min. jeden znak specjalny (@, $, !, %, *, ?, &)")
+      .required(`${t("common:required")}`)
+      .min(8, `${t("auth:password.min")}`)
+      .matches(/[A-Z]/, `${t("auth:password.matches.uppercase")}`)
+      .matches(/[a-z]/, `${t("auth:password.matches.lowercase")}`)
+      .matches(/[0-9]/, `${t("auth:password.matches.number")}`)
+      .matches(/[@$!%*?&]/, `${t("auth:password.matches.specialChar")}`)
   });
+}

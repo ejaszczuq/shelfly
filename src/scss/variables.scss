@@ -23,6 +23,7 @@ $gradient-0: linear-gradient(180deg, #1a181c 0%, #272d2a 100%);
 $box-shadow-0: 0px 10px 12px 0px rgba($black-0, 0.3);
 
 // BREAKPOINTS
+$xxs: 240px;
 $xs: 320px;
 $sm: 576px;
 $md: 768px;
@@ -42,10 +43,67 @@ $extra-bold: 800;
 $black: 900;
 $extra-black: 950;
 
+// FONT SIZES
+$typography-sizes: (
+  h1: (
+    xxs: 28px,
+    xs: 32px,
+    sm: 36px,
+    md: 42px,
+    lg: 46px
+  ),
+  h2: (
+    xxs: 24px,
+    xs: 28px,
+    sm: 32px,
+    md: 36px,
+    lg: 38px
+  ),
+  h3: (
+    xxs: 20px,
+    xs: 24px,
+    sm: 28px,
+    md: 30px,
+    lg: 32px
+  ),
+  h4: (
+    xxs: 16px,
+    xs: 20px,
+    sm: 22px,
+    md: 25px,
+    lg: 26px
+  ),
+  h5: (
+    xxs: 14px,
+    xs: 18px,
+    sm: 20px,
+    md: 22px,
+    lg: 23px
+  ),
+  h6: (
+    xxs: 12px,
+    xs: 16px,
+    sm: 18px,
+    md: 20px,
+    lg: 21px
+  ),
+  p0: (
+    xxs: 10px,
+    xs: 14px,
+    sm: 15px,
+    md: 16px
+  ),
+  p1: (
+    xxs: 8px,
+    xs: 12px,
+    sm: 13px,
+    md: 14px
+  )
+);
+
+
 // APP SIZES
 $mobile: $md;
-$app-padding-x: 16px;
-$app-container: 1400px + 2 * $app-padding-x;
 
 // Z-INDXES
 $navbar-z-index: 100;

@@ -8,10 +8,12 @@ import DashboardLayout from "@src/components/layouts/DashboardLayout/DashboardLa
 import DynamicIcon from "@src/components/common/DynamicIcon";
 
 import "./Home.scss";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { filteredBooks, loading } = useBooks();
   const { openModal } = useModals();
+  const {t} = useTranslation(["common"]);
 
   const handleOpenBookDetailsModal = (book: FirestoreBook) => openModal({ type: "bookDetails", data: { book } });
   const handleOpenEditBookModal = (book: FirestoreBook) => openModal({ type: "editBook", data: { book } });
@@ -20,11 +22,12 @@ const Home = () => {
   return (
     <div className="home">
       <div className="book-wrapper">
-        {loading && <p>Ładowanie książek...</p>}
-        {!loading && filteredBooks.length === 0 && <p>Brak książek do wyświetlenia.</p>}
+        {loading && <p className="loading-dots">{t("common:loadingBooks")}</p>}
+        {!loading && filteredBooks.length === 0 && <p>{t("common:noBooksData")}</p>}
         {!loading &&
           filteredBooks.map((book) => {
             const { id, title, src } = book;
+
             return (
               <div key={id} className="book-details">
                 <h4>{title}</h4>

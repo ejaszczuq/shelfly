@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useBooks } from "@src/contexts/Books.context";
-import "./ControlPanel.scss";
+import { useTranslation } from "react-i18next";
 import SearchInput from "../SearchInput/SearchInput";
+
+import "./ControlPanel.scss";
 
 interface IControlPanel {
   labelName: string;
@@ -10,8 +12,9 @@ interface IControlPanel {
 const ControlPanel: React.FC<IControlPanel> = ({ labelName }) => {
   const { books, selectedGenres, setSelectedGenres } = useBooks();
   const [genreSearch, setGenreSearch] = useState("");
+  const { t } = useTranslation(["common"]);
 
-  // Funkcja pomocnicza do rozdzielania gatunków (obsługa formatu tablica lub string)
+// Helper function to split species (support array or string format)
   const extractGenres = (genreData: any): string[] => {
     if (!genreData) return [];
     if (Array.isArray(genreData)) {
@@ -22,19 +25,19 @@ const ControlPanel: React.FC<IControlPanel> = ({ labelName }) => {
     return genreData.split(",").map((s: string) => s.trim());
   };
 
-  // Pobranie wszystkich unikalnych gatunków
+ // Downloading all unique genres
   const allGenres = Array.from(
     new Set(books.flatMap((book) => extractGenres(book.genre)))
   ).filter(Boolean);
 
-  // Filtrowanie gatunków przy użyciu lokalnego stanu genreSearch
+ // Filtering genres using the local genreSearch state
   const filteredGenres = genreSearch
     ? allGenres.filter((genre) =>
         genre.toLowerCase().includes(genreSearch.toLowerCase())
       )
     : [];
 
-  // Obsługa zmiany checkboxa
+ // Checkbox change handling
   const handleCheckboxChange = (genre: string) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter((g) => g !== genre));
@@ -47,18 +50,20 @@ const ControlPanel: React.FC<IControlPanel> = ({ labelName }) => {
     <div className="control-panel">
       <p>{labelName}</p>
       <hr />
-      {/* Input wyszukiwania gatunków */}
+      {/* Input search - genres */}
       <SearchInput
         value={genreSearch}
         onChange={(e) => setGenreSearch(e.target.value)}
-        placeholder="Filtruj gatunki..."
+        placeholder={t("common:filterByGenres.search.placeholder")}
+
+
       />
 
-      {/* Sekcja gatunków wyszukiwanych */}
+      {/* Search species genres */}
       {genreSearch && (
-        <>
+        <div className="genre-search">
           <hr />
-          <p>Gatunki wyszukiwane</p>
+          <p>{t("common:filterByGenres.search.searchResults")}</p>
           {filteredGenres.length > 0 ? (
             <><ul>
               {filteredGenres.map((genre) => (
@@ -74,16 +79,16 @@ const ControlPanel: React.FC<IControlPanel> = ({ labelName }) => {
               ))}
             </ul><br/></>
           ) : (
-            <><span>Brak gatunków</span><br /><br /></>
+            <><span>{t("common:filterByGenres.noGenres")}</span><br /><br /></>
           )}
-        </>
+        </div>
       )}
 
      
 
-      {/* Sekcja wszystkich gatunków */}
-      
-      <p>Wszystkie gatunki</p>
+      {/* All genres section */}
+      <div className="all-genres">
+      <p>{t("common:filterByGenres.allGenres")}</p>
       {allGenres.length > 0 ? (
         <ul>
           {allGenres.map((genre) => (
@@ -100,8 +105,9 @@ const ControlPanel: React.FC<IControlPanel> = ({ labelName }) => {
           ))}
         </ul>
       ) : (
-        <span>Brak gatunków</span>
+        <span>{t("common:filterByGenres.noGenres")}</span>
       )}
+      </div>
     </div>
   );
 };
