@@ -77,8 +77,8 @@ const EditBookModal = ({ book }: ModalProps) => {
                 {/* Title */}
                 <Field
                   name="title"
-                  label={t("modals:editBook.inputs.title.label")}
-                  placeholder={t("modals:editBook.inputs.title.placeholder")}
+                  label={t("modals:inputs.title.label")}
+                  placeholder={t("modals:inputs.title.placeholder")}
                   component={Input}
                   variant="outlined"
                   prefixIcon="TextFormatTwoTone"
@@ -87,8 +87,8 @@ const EditBookModal = ({ book }: ModalProps) => {
                 {/* Author */}
                 <Field
                   name="author"
-                  label={t("modals:editBook.inputs.author.label")}
-                  placeholder={t("modals:editBook.inputs.author.placeholder")}
+                  label={t("modals:inputs.author.label")}
+                  placeholder={t("modals:inputs.author.placeholder")}
                   component={Input}
                   variant="outlined"
                   prefixIcon="EmojiPeopleTwoTone"
@@ -98,8 +98,8 @@ const EditBookModal = ({ book }: ModalProps) => {
                 <Field
                   name="year"
                   type="number"
-                  label={t("modals:editBook.inputs.year.label")}
-                  placeholder={t("modals:editBook.inputs.year.placeholder")}
+                  label={t("modals:inputs.year.label")}
+                  placeholder={t("modals:inputs.year.placeholder")}
                   component={Input}
                   variant="outlined"
                   prefixIcon="InsertInvitationTwoTone"
@@ -108,8 +108,8 @@ const EditBookModal = ({ book }: ModalProps) => {
                 {/* Genre */}
                 <Field
                   name="genre"
-                  label={t("modals:editBook.inputs.genre.label")}
-                  placeholder={t("modals:editBook.inputs.genre.placeholder")}
+                  label={t("modals:inputs.genre.label")}
+                  placeholder={t("modals:inputs.genre.placeholder")}
                   component={Input}
                   variant="outlined"
                   prefixIcon="CategoryTwoTone"
@@ -118,8 +118,8 @@ const EditBookModal = ({ book }: ModalProps) => {
                 {/* Description */}
                 <Field
                   name="description"
-                  label={t("modals:editBook.inputs.description.label")}
-                  placeholder={t("modals:editBook.inputs.description.placeholder")}
+                  label={t("modals:inputs.description.label")}
+                  placeholder={t("modals:inputs.description.placeholder")}
                   component={Input}
                   type="textarea"
                   maxLength={500}
