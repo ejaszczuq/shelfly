@@ -3,20 +3,21 @@
 .input-container {
   position: relative;
   margin: 16px 0;
+  width: 100%;
+  max-width: 100%; // guarantee not to exceed modal
 
   &.outlined {
     border: 1px solid $grey-2;
     border-radius: 4px;
     padding: 0.75rem;
     transition: border-color 0.3s ease-in-out;
+    width: 100%;
 
     .input-label {
       position: absolute;
       top: 0;
       left: 1rem;
-
       transform: translateY(-50%);
-
       background-color: $black-1;
       padding: 0 8px;
       color: $white-1;
@@ -25,8 +26,12 @@
       transition: color 0.2s ease-in-out;
     }
 
-    &.error .input-label {
-      color: $error;
+    &.error {
+      border-color: $error;
+
+      .input-label {
+        color: $error;
+      }
     }
 
     &:has(.input-field:focus),
@@ -41,19 +46,18 @@
         transition: color 0.2s ease-in-out;
       }
 
-      &.error .input-label,
-      .prefix-icon {
+      .prefix-icon,
+      &.error .input-label {
         color: $blue-0;
       }
-    }
-
-    &.error {
-      border-color: $error;
     }
   }
 
   .input-wrapper {
     position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
 
     .prefix-icon {
       position: absolute;
@@ -61,6 +65,8 @@
       pointer-events: none;
       top: 50%;
       transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: $white-1;
     }
 
     .clear-icon {
@@ -79,14 +85,14 @@
     .input-field,
     .textarea {
       width: 100%;
+      min-width: 0; // allows itself to decrease
       border: none;
       outline: none;
       background-color: transparent;
       color: $white-0;
       font-size: 1rem;
       box-sizing: border-box;
-      padding: 0.5rem;
-      padding-left: 3rem;
+      padding: 0.5rem 1rem 0.5rem 2.5rem;
       color: $white-1;
 
       &:focus {
@@ -106,19 +112,8 @@
 
     .textarea {
       min-height: 80px;
-      padding-top: 1rem;
-      padding-left: 1rem;
+      padding: 1rem;
       resize: none;
-
-      & ~ .clear-icon {
-        top: 0.7rem;
-        transform: none;
-        cursor: pointer;
-        color: $white-0;
-        background-color: $white-1;
-        border-radius: 1rem;
-        padding: 3px;
-      }
     }
 
     .char-count {
@@ -130,6 +125,43 @@
       background-color: $white-1;
       border-radius: 1rem;
       padding: 2px;
+    }
+  }
+
+  // Responsive scaling
+  @include mq-max($sm) {
+    margin: 12px 0;
+
+    .input-wrapper {
+      .input-field,
+      .textarea {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem 0.5rem 2rem;
+      }
+    }
+  }
+
+  @include mq-max($xs) {
+    .input-wrapper {
+      .input-field,
+      .textarea {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.5rem 0.4rem 1.5rem;
+      }
+    }
+  }
+
+  @include mq-max($xxs) {
+    .input-wrapper {
+      .input-field,
+      .textarea {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+      }
+    }
+
+    .textarea {
+      min-height: 60px;
     }
   }
 }

@@ -10,6 +10,8 @@ import Backdrop from "@src/components/modals/shared/Backdrop/Backdrop";
 import Modal from "@src/components/modals/shared/Modal/Modal";
 
 import "./DeleteAcountModal.scss";
+import { useTranslation } from "react-i18next";
+import Button from "@src/components/common/Button/Button";
 
 const DeleteAccountModal = () => {
   const [loading, setLoading] = useState(false);
@@ -18,6 +20,7 @@ const DeleteAccountModal = () => {
   const navigate = useNavigate();
   const { deleteAccount } = useAuth();
   const { closeModal } = useModals();
+  const { t } = useTranslation(["modals", "common"]);
 
   const handleDeleteAccount = async () => {
     setLoading(true);
@@ -26,10 +29,10 @@ const DeleteAccountModal = () => {
     try {
       await deleteAccount();
       closeModal();
-      alert("Twoje konto zostało usunięte.");
+      alert(t("common:messages.deleteAccount"));
       navigate(PATHS.authLogin.path);
     } catch (err: any) {
-      setError("Wystąpił błąd przy usuwaniu konta.");
+      setError(t("common:messages.errorMessages.deleteAccountError"));
     } finally {
       setLoading(false);
     }
@@ -40,19 +43,19 @@ const DeleteAccountModal = () => {
       <Backdrop open>
         <Modal onClose={closeModal}>
           <div className="delete-account-modal">
-            <h3>Czy na pewno chcesz usunąć swoje konto?</h3>
+          <h4>{t("modals:deleteAccount.title")}</h4>
             {error && <p className="error">{error}</p>}
 
             {loading ? (
-              <p className="loading">Usuwanie konta...</p>
+              <p className="loading-dots">{t("modals:deleteAccount.deletingAccount")}</p>
             ) : (
               <div className="modal-actions">
-                <button className="modal-btn delete" onClick={handleDeleteAccount}>
-                  Tak, usuń konto
-                </button>
-                <button className="modal-btn" onClick={closeModal}>
-                  Nie, anuluj
-                </button>
+                <Button className="delete" onClick={handleDeleteAccount} variant={"secondary"}>
+                {t("modals:deleteAccount.yes")}
+                </Button>
+                <Button variant="secondary" onClick={closeModal}>
+                {t("modals:no")}
+                </Button>
               </div>
             )}
           </div>

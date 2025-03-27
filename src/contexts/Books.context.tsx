@@ -75,7 +75,7 @@ export const BooksProvider = ({ children }: ContextProps) => {
     }
   };
 
-  // Funkcja pomocnicza do ekstrakcji gatunków z książki
+  // A helper function to extract species from a book
 const extractGenres = (genreData: any): string[] => {
   if (!genreData) return [];
   if (Array.isArray(genreData)) {
@@ -90,11 +90,11 @@ const applyFilters = () => {
   const queryLower = searchQuery.toLowerCase().trim();
 
   let filtered = books.filter((book) => {
-    // Filtracja po zapytaniu wyszukiwania
+    // Filtering after a search query
     const titleMatch = book.title.toLowerCase().includes(queryLower);
     const authorMatch = book.author.toLowerCase().includes(queryLower);
     const yearMatch = book.year.toString() === queryLower;
-    // book.genre może być stringiem lub tablicą
+    // book.genre can be a string or an array
     const genreMatch = extractGenres(book.genre).some((g) =>
       g.toLowerCase().includes(queryLower)
     );
@@ -102,11 +102,11 @@ const applyFilters = () => {
     return titleMatch || authorMatch || yearMatch || genreMatch;
   });
 
-  // Filtracja po wybranych gatunkach – jeśli jakieś zostały zaznaczone
+  // Filter by selected species - if any have been selected
   if (selectedGenres.length > 0) {
     filtered = filtered.filter((book) => {
       const bookGenres = extractGenres(book.genre);
-      // Sprawdzamy czy choć jeden z gatunków książki znajduje się w selectedGenres
+      // We check if at least one of the book genres is in selectedGenres
       return bookGenres.some((g) => selectedGenres.includes(g));
     });
   }

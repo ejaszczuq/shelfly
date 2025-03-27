@@ -5,14 +5,19 @@
 
   .book-wrapper {
     display: flex;
-    flex-flow: row;
-    gap: 16px;
-    width: 100%;
-    height: 100%;
-    padding-left: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+  
+
+    // small screens — column layout
+    @include mq-max($sm) {
+      flex-direction: column;
+      padding: 1rem;
+    }
 
     p {
-      margin-top: 15px;
+      margin: 15px 0px 0px 25px;
     }
 
     .edit-book {
@@ -26,6 +31,11 @@
       border-radius: 10px;
       box-shadow: $box-shadow-0;
       width: 375px;
+
+      @include mq-max($sm) {
+        width: 90%;
+        padding: 1rem;
+      }
     }
 
     .dynamic-icon:hover {
@@ -35,10 +45,19 @@
 
     .book-details {
       padding: 2rem;
+      max-height: 70px; 
       color: $white-0;
+
+      @include mq-max($sm) {
+        padding: 1rem;
+      }
 
       img {
         max-width: 100px;
+
+        @include mq-max($xs) {
+          max-width: 80px;
+        }
       }
     }
   }

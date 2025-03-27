@@ -10,63 +10,141 @@
   align-items: center;
   justify-content: space-between;
   z-index: $navbar-z-index;
-  padding: 0 1rem; // horizontal padding
+  padding: 0 1rem;
   background-color: $grey-1;
   box-shadow: $box-shadow-0;
 
-  // Left side: pinned left
   .navbar-left {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding-left: 10px;
 
+    @include mq-max($sm) {
+      gap: 0.1rem;
+      padding-left: 4px;
+    }
+
+    svg {
+      @include mq-max($sm) {
+        height: 22.5px;
+      }
+    }
+
     .site-name {
       font-size: 1.2rem;
       font-weight: $bold;
       color: $white-0;
       cursor: pointer;
+
+      @include mq-max($md) {
+        font-size: 1.05rem;
+      }
+
+      @include mq-max($sm) {
+        font-size: 0.8rem;
+      }
+
+      @include mq-max($xxs) {
+        font-size: 0.75rem;
+      }
     }
   }
 
-  // Center: big search input
   .navbar-center {
-    flex: 1; // let it grow to push left & right apart
+    flex: 1;
     display: flex;
     justify-content: center;
+
+    .input-section {
+      width: 300px;
+
+      @include mq-max($xl) {
+        width: 350px;
+      }
+
+      @include mq-max($lg) {
+        width: 300px;
+      }
+
+      @include mq-max($md) {
+        width: 250px;
+      }
+
+      @include mq-max($sm) {
+        width: 180px;
+      }
+
+      @include mq-max($xs) {
+        width: 150px;
+      }
+
+      @include mq-max($xxs) {
+        width: 140px;
+      }
+    }
   }
 
-  .input-section {
-    width: 400px;
-  }
-
-  // Right side: pinned right
   .navbar-right {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding-right: 10px;
 
+    @include mq-max($sm) {
+      gap: 0.5rem;
+    }
+
     svg {
       cursor: pointer;
       transition: all 0.2s ease-in-out;
-      // fill: #551122;
+      max-width: 30px;
+      max-height: 30px;
 
       &:hover {
         fill: $white-0;
       }
+
+      @include mq-max($xl) {
+        width: 30px;
+        height: 30px;
+      }
+
+      @include mq-max($lg) {
+        width: 28px;
+        height: 28px;
+      }
+
+      @include mq-max($md) {
+        width: 24px;
+        height: 24px;
+      }
+
+      @include mq-max($sm) {
+        width: 20px;
+        height: 20px;
+      }
+
+      @include mq-max($xxs) {
+        width: 18px;
+        height: 18px;
+      }
     }
   }
 
-  // ------------- RESPONSIVE -------------
-  @media (max-width: $sm) {
+  // Global navbar adjustments
+  @include mq-max($md) {
     height: 60px;
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
+  }
 
-    .navbar-center {
-      .input-section {
-        width: 200px; // narrower on small screens
-      }
-    }
+  @include mq-max($sm) {
+    height: 55px;
+    padding: 0 0.2rem;
+  }
+
+  @include mq-max($xxs) {
+    height: 50px;
+    padding: 0;
   }
 }

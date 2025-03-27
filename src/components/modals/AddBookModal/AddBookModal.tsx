@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
+import { useTranslation } from "react-i18next";
 
 import { addBook } from "@src/firebase/bookService";
 import { useModals } from "@src/contexts/Modals.context";
@@ -11,8 +12,9 @@ import Input from "@src/components/common/Input/Input";
 
 import { generateAddEditBookSchema } from "./addBook.schema";
 import "./AddBookModal.scss";
+import Button from "@src/components/common/Button/Button";
 
-interface AddBookForm {
+interface AddBookFormValues {
   title: string;
   author: string;
   year: number;
@@ -24,17 +26,20 @@ const AddBookModal = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { t } = useTranslation(["modals", "common"]);
   const { closeModal } = useModals();
 
   const validationSchema = generateAddEditBookSchema();
 
-  const handleAddBook = async (values: AddBookForm) => {
+  const handleAddBook = async (values: AddBookFormValues) => {
+    if (loading) return;
+
     setLoading(true);
     setError(null);
 
     try {
       await addBook(values);
-      closeModal?.(); // Zamknięcie modala po dodaniu książki
+      closeModal?.(); // Closing the modal after adding a book
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -59,54 +64,54 @@ const AddBookModal = () => {
           >
             {({ handleSubmit }) => (
               <Form onSubmit={handleSubmit} className="add-book-modal">
-                <h2>Dodaj nową książkę</h2>
+                <h2>{t("modals:addBook.title")}</h2>
 
-                {/* Tytuł */}
+                {/* Title */}
                 <Field
                   name="title"
-                  label="Tytuł"
-                  placeholder="Podaj tytuł"
+                  label={t("modals:inputs.title.label")}
+                  placeholder={t("modals:inputs.title.placeholder")}
                   prefixIcon="TextFormatTwoTone"
                   component={Input}
                   variant="outlined"
                 />
 
-                {/* Autor */}
+                {/* Author */}
                 <Field
                   name="author"
-                  label="Autor"
-                  placeholder="Podaj autora"
+                  label={t("modals:inputs.author.label")}
+                  placeholder={t("modals:inputs.author.placeholder")}
                   prefixIcon="EmojiPeopleTwoTone"
                   component={Input}
                   variant="outlined"
                 />
 
-                {/* Rok wydania */}
+                {/* Year */}
                 <Field
                   name="year"
-                  label="Rok wydania"
-                  placeholder="Podaj rok"
-                  prefixIcon="InsertInvitationTwoTone"
                   type="number"
+                  label={t("modals:inputs.year.label")}
+                  placeholder={t("modals:inputs.year.placeholder")}
+                  prefixIcon="InsertInvitationTwoTone"
                   component={Input}
                   variant="outlined"
                 />
 
-                {/* Gatunek */}
+                {/* Genre */}
                 <Field
                   name="genre"
-                  label="Gatunek"
-                  placeholder="Podaj gatunek (np. Fantasy, Sci-Fi)"
+                  label={t("modals:inputs.genre.label")}
+                  placeholder={t("modals:inputs.genre.placeholder")}
                   prefixIcon="CategoryTwoTone"
                   component={Input}
                   variant="outlined"
                 />
 
-                {/* Opis */}
+                {/* Description */}
                 <Field
                   name="description"
-                  label="Opis"
-                  placeholder="Podaj opis książki"
+                  label={t("modals:inputs.description.label")}
+                  placeholder={t("modals:inputs.description.placeholder")}
                   type="textarea"
                   component={Input}
                   maxLength={500}
@@ -114,12 +119,11 @@ const AddBookModal = () => {
                   prefixIcon=""
                 />
 
-                {loading && <p className="loading-dots">Wysyłanie...</p>}
                 {error && <p className="error">{error}</p>}
 
-                <button type="submit" disabled={loading}>
-                  {loading ? "Dodawanie..." : "Dodaj książkę"}
-                </button>
+                <Button variant="primary-with-arrow" type="submit" disabled={loading}>
+                  {loading ? <span className="loading-dots">{t("common:saving")}</span> : t("common:addBook")}
+                </Button>
               </Form>
             )}
           </Formik>

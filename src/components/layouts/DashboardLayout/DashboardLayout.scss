@@ -2,28 +2,97 @@
 
 .dashboard-layout {
   display: flex;
-  flex-flow: column nowrap;
-  padding-top: 70px;
+  flex-direction: column;
   height: 100%;
-
-  // &__navbar {
-  // }
+  padding-top: 70px;
 
   &__content {
     display: flex;
     flex-grow: 1;
+    position: relative;
+    width: 100%;
   }
 
   &__sidebar {
     background-color: $black-1;
-    padding: 20px 20px 20px 10px;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 10px 20px 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
+
+    position: fixed;
+    top: 70px;
+    left: 0;
+    height: calc(100vh - 70px);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+
+    // DOMAIN - desktop (md and above)
+    width: 290px;
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    @include mq-max($md) {
+      width: 240px;
+      top: 60px;
+    }
+
+    @include mq-max($sm) {
+      width: 200px;
+      top: 55px;
+    }
+
+    @include mq-max($xs) {
+      width: 180px;
+      top: 50px;
+    }
+
+    .dashboard-layout__toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: -20px;
+      width: 20px;
+      height: 30px;
+      background-color: $blue-0;
+      color: white;
+      border: none;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: darken($blue-0, 10%);
+      }
+    }
   }
 
   &__main {
     flex-grow: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+    width: 100%;
+    margin-left: 0;
+
+    // On DESKTOP main moves when sidebar open
+    @include mq-min($md) {
+      .dashboard-layout__sidebar.open ~ & {
+        margin-left: 290px;
+      }
+    }
+
+     // On mobile devices main ALWAYS without margin
+    @include mq-max($md) {
+      margin-left: 0 !important;
+    }
   }
 }

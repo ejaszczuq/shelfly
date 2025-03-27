@@ -1,0 +1,36 @@
+{
+  "required": "To pole jest wymagane",
+  "loading": "Wczytywanie",
+  "loadingBooks": "Ładowanie książek",
+  "noBooksData": "Brak książek do wyświetlenia.",
+  "saving": "Zapisywanie",
+  "save": "Zapisz",
+  "addBook": "Dodaj książkę",
+  "home": "Home",
+  "searchForBooks": "Szukaj książek...",
+    "filterByGenres": {
+      "title": "Filtruj według gatunków",
+      "search": {
+        "placeholder": "Szukaj...",
+        "searchResults": "Wyniki wyszukiwania"
+      },
+      "allGenres": "Wszystkie gatunki",
+      "noGenres": "Brak gatunków"
+    },
+    "notFound": {
+      "title": "Strony nie znaleziono",
+      "buttonText": "Wróć do strony głównej"  
+    },
+    "messages": {
+      "deleteBook": "Książka została usunięta.",
+      "deleteAccount": "Twoje konto zostało usunięte.",
+      "errorMessages": {
+        "deleteBookError": "Wystąpił problem podczas usuwania książki.",
+        "deleteAccountError": "Wystąpił problem przy usuwaniu konta.",
+        "loginError": "Wystąpił problem przy logowaniu.",
+        "registerError": "Wystąpił problem przy rejestracji konta.",
+        "resetPasswordError": "Wystąpił problem przy resetowaniu hasła.",
+        "logoutError": "Wystąpił problem przy wylogowywaniu."
+      }
+  }
+  }

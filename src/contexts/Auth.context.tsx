@@ -32,22 +32,22 @@ interface ContextValue {
 
 export type AuthStatus = "logging" | "loggedIn" | "loggedOut";
 
-// Tworzenie kontekstu - centralnego miejsca do przechowywania uzytkownika
+// Create a context - a central place to store the user
 const AuthContext = React.createContext(null as any);
 
-// Glowna czesc: AuthProvider - dostarcza kontekst calej aplikacji
+// Main part: AuthProvider - provides the context for the entire application
 export const AuthProvider = ({ children }: ContextProps) => {
-  const [user, setUser] = useState<User | null>(null); // przechowuje stan uzytkownika (user)
-  const [authStatus, setAuthStatus] = useState<AuthStatus>("logging"); // przechowuje status uwierzytelnienia (authStatus)
+  const [user, setUser] = useState<User | null>(null); // stores the state of the user
+  const [authStatus, setAuthStatus] = useState<AuthStatus>("logging"); // stores the authentication status (authStatus)
 
   const navigate = useNavigate();
 
-  // Ten efekt nasluchuje na zmiany stanu autoryzacji i odpowiednio aktualizuje state z danymi usera
-  // odpala sie na starcie komponentu i jesli user ma zapiosane dane sesji w przegladarce to logguje go ponownie itd.
+  // This effect listens for changes in the authorization state and updates the state with the user's data accordingly
+  // fires at the start of the component and if the user has stored session data in the browser it logs him back in, etc.
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Jesli jest zalogowany
+        // If logged in
         setUser(user);
         await user.getIdToken();
         setAuthStatus("loggedIn");
@@ -66,16 +66,16 @@ export const AuthProvider = ({ children }: ContextProps) => {
     }
 
     try {
-      await deleteUser(user);  // Usunięcie konta użytkownika
+      await deleteUser(user);  // Delete user account
       setUser(null);
       setAuthStatus("loggedOut");
-      navigate(PATHS.authLogin.path);  // Przekierowanie na stronę logowania po usunięciu konta
+      navigate(PATHS.authLogin.path);  // Redirect to login page when account is deleted
     } catch (error) {
       throw new Error("Wystąpił problem przy usuwaniu konta.");
     }
   };
 
-  // AuthProvider dostarcza funkcje logowania, rejestracji, wylogowania itp.
+  // AuthProvider provides login, registration, logout, etc. functions.
   const loginWithGoogle = async () => {
     setAuthStatus("logging");
 
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }: ContextProps) => {
     }
   };
 
-  // ta metoda dziala tylko dla kont zalozonych przez email
+  // this method works only for accounts created via email
   const resetPassword = async (email: string) => {
     return sendPasswordResetEmail(auth, email);
   };
@@ -140,12 +140,12 @@ export const AuthProvider = ({ children }: ContextProps) => {
     logout,
     deleteAccount
   };
-  // Udostepnienie kontekstu dla calej aplikacji
-  /// Udostepnia caly kontekst (user, authStatus, metody logowania) wszystkim komponentom
+  // Provides the context for the entire application.
+  /// Provides the entire context (user, authStatus, login methods) to all components
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
 
-// Sposob na latwy dostep do kontekstu
+// A way to easily access the context
 export const useAuth = (): ContextValue => {
   const context = React.useContext(AuthContext);
 
@@ -154,6 +154,6 @@ export const useAuth = (): ContextValue => {
   }
 
   return context;
-  // Dzieki temu w dowolnym komponencie mozesz dostac sie doniego w taki sposob:
+  // Thanks to this, in any component, you can access it like this:
   /// const { user, logout } = useAuth();
 };

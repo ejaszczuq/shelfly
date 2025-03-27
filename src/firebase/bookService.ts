@@ -13,12 +13,12 @@ export interface FirestoreBook {
   userId: string;
 }
 
-// Dodawanie książki do Firestore w subkolekcji użytkownika
+// Adding a book to the Firestore in a user subcollection
 export const addBook = async (book: Omit<FirestoreBook, "userId">) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const booksRef = collection(db, "books");
     return await addDoc(booksRef, { ...book, userId: user.uid });
@@ -28,12 +28,12 @@ export const addBook = async (book: Omit<FirestoreBook, "userId">) => {
   }
 };
 
-// Pobieranie książek tylko zalogowanego użytkownika
+// Downloading books of the logged-in user only
 export const getUserBooks = async () => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const booksRef = collection(db, "books");
     const q = query(booksRef, where("userId", "==", user.uid));
@@ -48,18 +48,18 @@ export const getUserBooks = async () => {
   }
 };
 
-// Pobranie jednej książki użytkownika do edycji
+// Downloading one user's book for editing
 export const getUserBookById = async (bookId: string) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const bookDocRef = doc(db, "books", bookId);
     const bookDoc = await getDoc(bookDocRef);
 
     if (!bookDoc.exists()) {
-      console.warn(`Nie znaleziono książki o ID: ${bookId}`);
+      console.warn(`ID book not found: ${bookId}`);
       return null;
     }
 
@@ -70,18 +70,18 @@ export const getUserBookById = async (bookId: string) => {
   }
 };
 
-// Edycja książki użytkownika
+// Edit user book
 export const updateUserBook = async (bookId: string, updatedBook: Partial<FirestoreBook>) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const bookDocRef = doc(db, "books", bookId);
     const bookDoc = await getDoc(bookDocRef);
 
     if (!bookDoc.exists() || bookDoc.data()?.userId !== user.uid) {
-      throw new Error("Brak dostępu do edycji tej książki.");
+      throw new Error("No access to remove this book.");
     }
 
     return await updateDoc(bookDocRef, updatedBook);
@@ -90,18 +90,18 @@ export const updateUserBook = async (bookId: string, updatedBook: Partial<Firest
   }
 };
 
-// Usuwanie książki użytkownika
+// Deleting a user's book
 export const deleteUserBook = async (bookId: string): Promise<void> => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const bookDocRef = doc(db, "books", bookId);
     const bookDoc = await getDoc(bookDocRef);
 
     if (!bookDoc.exists() || bookDoc.data()?.userId !== user.uid) {
-      throw new Error("Brak dostępu do usunięcia tej książki.");
+      throw new Error("No access to remove this book.");
     }
 
     await deleteDoc(bookDocRef);
@@ -110,12 +110,12 @@ export const deleteUserBook = async (bookId: string): Promise<void> => {
   }
 };
 
-// Pobieranie książki po tytule tylko dla zalogowanego użytkownika
+// Download book by title only for logged-in user
 export const getUserBookByTitle = async (title: string) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const booksRef = collection(db, "books");
     const q = query(booksRef, where("userId", "==", user.uid), where("title", "==", title));
@@ -132,12 +132,12 @@ export const getUserBookByTitle = async (title: string) => {
   }
 };
 
-// Pobieranie książek użytkownika po autorze
+// Downloading user books by author
 export const getUserBooksByAuthor = async (author: string) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const booksRef = collection(db, "books");
     const q = query(booksRef, where("userId", "==", user.uid), where("author", "==", author));
@@ -152,12 +152,12 @@ export const getUserBooksByAuthor = async (author: string) => {
   }
 };
 
-// Pobieranie książek użytkownika po gatunku
+// Downloading user books by genre
 export const getUserBooksByGenre = async (genre: string): Promise<FirestoreBook[]> => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) throw new Error("Użytkownik nie jest zalogowany.");
+    if (!user) throw new Error("The user is not logged in.");
 
     const booksRef = collection(db, "books");
     const q = query(booksRef, where("userId", "==", user.uid), where("genre", "array-contains", genre));

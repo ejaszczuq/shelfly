@@ -12,7 +12,7 @@ import SearchInput from "@src/components/common/SearchInput/SearchInput";
 import "./Navbar.scss";
 
 const Navbar: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common']);
   const { logout } = useAuth();
   const { searchQuery, setSearchQuery } = useBooks();
   const { openModal } = useModals();

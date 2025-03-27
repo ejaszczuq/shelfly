@@ -12,7 +12,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    supportedLngs: ["en"],
+    supportedLngs: ["en", "pl"],
     ns: getTranslationsKeys(resources),
     resources,
     interpolation: {
